@@ -1,0 +1,184 @@
+﻿.dashboardtable {
+    color: #333;
+    font-family: Helvetica,Arial,sans-serif;
+    width: 100%;
+    border-spacing: 1px;
+    border-collapse: separate;
+    padding: 0 3px;
+    table-layout:auto;
+}
+
+    .dashboardtable td, th {
+        height: 30px;
+        transition: all 1s;
+        text-align: center;
+        /*width:auto;*/
+    }
+
+    .dashboardtable th {
+        background: #72A942;
+        font-weight: 700;
+        /*border-radius: 5px;*/
+        color: white;
+    }
+
+    .dashboardtable td {
+        /*border-radius: 5px;*/
+    }
+
+    .dashboardtable td {
+        background: #FAFAFA;
+        word-wrap: break-word;
+    }
+
+    .dashboardtable tr:nth-child(even) td {
+        background: #C7DEB3;
+    }
+
+    .dashboardtable tr:nth-child(odd) td {
+        background: #E2EED9;
+    }
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+#inprogress tr:hover td {
+    background: #72A942;
+    font-weight: 700;
+    color: white;
+}
+
+#pendingvalidation tr:nth-child(even) td {
+    background: #B9CFE6;
+}
+
+#pendingvalidation tr:nth-child(odd) td {
+    background: #F2F5FA;
+}
+
+#pendingvalidation th {
+    background: #7B96AB;
+    font-weight: 700;
+    color: white;
+}
+
+#pendingvalidation tr:hover td {
+    background: #7B96AB;
+    font-weight: 700;
+    color: white;
+}
+
+#approved tr:nth-child(even) td {
+    background: #DDDDDD;
+}
+
+#approved tr:nth-child(odd) td {
+    background: #EDF3F3;
+}
+
+#approved th {
+    background: #2E5F66;
+    font-weight: 700;
+    /*border-radius: 5px;*/
+    color: white;
+}
+
+#approved tr:hover td {
+    background: #2E5F66;
+    font-weight: 700;
+    color: white;
+}
+
+#paymentpending tr:nth-child(even) td {
+    background: #90CCE4;
+}
+
+#paymentpending tr:nth-child(odd) td {
+    background: #C5E5F0;
+}
+
+#paymentpending th {
+    background: #2890B5;
+    font-weight: 700;
+    /*border-radius: 5px;*/
+    color: white;
+}
+
+#paymentpending tr:hover td {
+    background: #2890B5;
+    font-weight: 700;
+    color: white;
+}
+
+input {
+    font-weight: bold;
+    text-align: center;
+}
+
+#invoicetable tr:nth-child(even) td {
+    background: #B9CFE6;
+}
+
+#invoicetable tr:nth-child(odd) td {
+    background: #F2F5FA;
+}
+
+#invoicetable th {
+    background: #7B96AB;
+    font-weight: 700;
+    color: white;
+}
+
+#serviceinvoicetable tr:nth-child(even) td {
+    background: #C7DEB3;
+}
+
+#serviceinvoicetable tr:nth-child(odd) td {
+    background: #E2EED9;
+}
+
+#serviceinvoicetable th {
+    background: #72A942;
+    font-weight: 700;
+    color: white;
+}
+
+#inprogressdiv {
+    border-radius: 15px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+}
+
+#pendingvalidationdiv {
+    border-radius: 15px;
+    border: 2px solid #7B96AB;
+    padding: 20px;
+}
+#approveddiv {
+    border-radius: 15px;
+    border: 2px solid #2E5F66;
+    padding: 20px;
+}
+#paymentpendingdiv {
+    border-radius: 15px;
+    border: 2px solid #2890B5;
+    padding: 20px;
+}
+
+.badge-danger {
+  background-color: #72A942;
+}
+.badge-warning {
+background-color: #7B96AB;
+}
+
+.badge-success {
+background-color: #2E5F66;
+}
+
+.badge-info {
+background-color: #2890B5;
+}
+
+.alert-success{
+    background-color: #2890B5;
+}

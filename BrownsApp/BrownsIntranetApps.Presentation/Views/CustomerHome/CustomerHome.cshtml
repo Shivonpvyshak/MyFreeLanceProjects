@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Customer Home";
+    Layout = "~/Views/Shared/_LayoutCustomerHome.cshtml";
+}
+
+@section Scripts
+{
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    @*<script src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js"></script>*@
+    @*<script src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.material.min.js"></script>
+    <script src="~/Scripts/app/CustomerHome.js"></script>
+
+    @*For buttons*@
+
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+}
+
+
+<div class="col-xs-12">
+    <h3><img src="~/Content/Images/Customer.png" style="width:100px; height:100px" /> <b>C</b>ustomer <b>D</b>ashboard                            | @Html.ActionLink("Add new Customer", "..//Customer/CreateCustomer", null, new { @class = "btn btn-primary" })</h3>
+</div>
+<div id="processingDiv" style="display:none;">
+    <h1><img src="~/Content/Images/processing.gif" style="width:70px; height:70px" />Processing...</h1>
+</div>
+
+@*<table id="cutomerList" class="mdl-data-table"  cellspacing="0" width="100%">*@
+<table id="cutomerList" class=" dashboardtable" cellspacing="0" width="100%" style="table-layout:auto">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Position</th>
+            <th>Phone#</th>
+            <th>Fax</th>
+            <th>Email</th>
+            <th>Billing Contact</th>
+            <th>Billing Email</th>
+            <th>Billing Phone</th>
+            <th>Tax Excempt#</th>
+            <th>Tax Jurisdiction</th>
+            <th>Tax Classification</th>
+        </tr>
+    </thead>
+</table>
+<h4>Column Search</h4>
+<hr />
+<table class="dashboardtable">
+    <thead><tr><th colspan="6">(Please hit 'Enter' after typing the search criteria in each search field)</th></tr></thead>
+    <tr>
+        <td><input type="text" id="name" placeholder="Name" class="form-control" /></td>
+        <td><input type="text" id="contact" placeholder="Contact" class="form-control" /></td>
+        <td><input type="text" id="position" placeholder="Position" class="form-control" /></td>
+        <td><input type="text" id="phone" placeholder="Phone#" class="form-control" /></td>
+        <td><input type="text" id="fax" placeholder="Fax" class="form-control" /></td>
+        <td><input type="text" id="email" placeholder="Email" class="form-control" /></td>
+    </tr>
+    <tr>
+        <td><input type="text" id="billingContact" placeholder="Billing Contact" class="form-control" />      </td>
+        <td><input type="text" id="billingEmail" placeholder="Billing Email" class="form-control" />          </td>
+        <td><input type="text" id="billingPhone" placeholder="Billing Phone" class="form-control" />          </td>
+        <td><input type="text" id="taxExcempt" placeholder="Tax Excempt#" class="form-control" />             </td>
+        <td><input type="text" id="taxJurisdiction" placeholder="Tax Jurisdiction" class="form-control" />    </td>
+        <td><input type="text" id="taxClassification" placeholder="Tax Classification" class="form-control" /></td>
+    </tr>
+</table>

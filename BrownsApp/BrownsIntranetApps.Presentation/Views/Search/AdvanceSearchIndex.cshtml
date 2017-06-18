@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "AdvanceSearchIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Advance Search</h2>
+
+<h3> Search Criteria</h3>
+<div class="container ng-cloak" ng-app="theApp" ng-cloak>
+    <div style="padding:10px; border:1px solid  thin; width:100%;height:130px" ng-controller="searchController" ng-cloak>
+        <form class="form-horizontal" name="addPartForm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-1">
+                            <label class="control-label">Part #</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <input class="form-control"
+                                       ng-model="PartNumber"
+                                       placeholder="Enter Part Number" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-1">
+                            <label class="control-label">Make</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <select id="Make"
+                                        class="form-control"
+                                        ng-init="Make = allCompanies[0]"
+                                        data-ng-options="r.companyName for r in allCompanies"
+                                        data-ng-model="Make"
+                                        placeholder="Select a Make"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-1">
+                            <label class="control-label">Model</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <input class="form-control"
+                                       ng-model="Model"
+                                       placeholder="Enter Model" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-1">
+                            <label class="control-label">SNum Range</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <input class="form-control"
+                                       ng-model="SerialNumberRange"
+                                       placeholder="Enter Sl Num" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-1">
+                            <label class="control-label">Part Manual</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <input class="form-control"
+                                       ng-model="PartManual"
+                                       placeholder="Enter Manual" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-1">
+                            <label class="control-label">Description</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group" ng-class="">
+
+                                <input class="form-control"
+                                       ng-model="PartDescription"
+                                       placeholder="Enter a Description" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="pull-right">
+
+            <button type="submit" class="btn btn-success"
+                    ng-click="executeSearchByAll($event,PartNumber,Make,Model,SerialNumberRange,PartManual,PartDescription)">
+                <span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>
+                <span ng-show="!isSearchExecuting" class="glyphicon glyphicon-search"></span> Search
+            </button>
+        </div>
+        <br /><br /><br /><br />
+        <div ng-show="searchResultNodes">
+            <br /><br /><br /><br />
+            @*<div>{{searchResultNodes.length}} <i>{{lastSearchMode}}</i> search results</div>*@
+            <div><b>{{searchResultNodes.length}}  Parts found </b></div>
+        </div>
+        <br />
+
+        <div ng-show="searchResultNodes">
+            <div class="container">
+                <div ng-repeat="searchResultNode in visibleSearchResultNodes">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <strong>
+                                    <a href="#" data-toggle="modal" data-target="#viewPartModal" ng-click="viewPart(searchResultNode)">{{searchResultNode.PartNumber}}</a>
+                                </strong>
+
+                                <span class="dropdown top-buffer">
+                                    <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="ddmActions" data-toggle="dropdown" aria-expanded="true">
+                                        <span><i class="fa fa-gear"></i></span>
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddmActions">
+
+                                        <li>
+                                            <a role="menuitem" href="#" data-toggle="modal" data-target="#editPartModal" ng-click="editPart(searchResultNode)"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                        </li>
+
+                                        <li>
+                                            <a role="menuitem" href="#" data-toggle="modal" data-target="#deletePartModal" ng-click="deletePart(searchResultNode)"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                                        </li>
+                                        <li>
+                                            <a role="menuitem" href="#" ng-click="viewHistory(searchResultNode)"><span class=""></span><span><i class="fa fa-history"></i></span> View History</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                                <span>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <strong>  Make: </strong> {{searchResultNode.Make}} | <strong>Model:</strong> {{searchResultNode.Model}} | <strong>List Price:</strong> {{searchResultNode.ListPrice | currency}}
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <strong>Serial Number Range:</strong> {{searchResultNode.SerialNumberRange}}
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Part Manual:</strong> {{searchResultNode.PartManual}}
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Part Description:</strong> {{searchResultNode.PartDescription}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <form name="paginationForm">
+
+                        <div class="col-xs-12">
+                            <div class="form-inline">
+                                <label style="vertical-align: top" class="form-control-static">Page size:</label>
+                                <input name="pageSize" style="vertical-align: top" class="form-control" type="number" max="100" min="1" ng-model="pageSize" ng-change="pageChanged()">
+                                <label class="text-danger" ng-show="paginationForm.pageSize.$error.max">
+                                    Maximum Page Size of 100 exceeded
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-xs-12">
+                        <pagination boundary-links="true" items-per-page="pageSize" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+                                    max-size="10">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<table class="nametable">
+
+        <thead>
+            <tr>
+                <th style="width: 50px;">
+                    S#
+                </th>
+                <th>
+                    Part Number
+                </th>
+                <th>
+                    Make
+                </th>
+                <th>
+                    Model
+                </th>
+                <th>
+                    Serial Number Range
+                </th>
+                <th>
+                    Part Manual
+                </th>
+                <th>
+                    Part Description
+                </th>
+                <th>
+                    List Price
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr ng-repeat="searchResultNode in visibleSearchResultNodes">
+
+                <td>{{searchResultNode.PartNumber}}</td>
+                <td>{{searchResultNode.Make}}</td>
+                <td>{{searchResultNode.Model}}</td>
+                <td>{{searchResultNode.SerialNumberRange}}</td>
+                <td>{{searchResultNode.PartManual}}</td>
+                <td>{{searchResultNode.PartDescription}}</td>
+                <td>{{searchResultNode.ListPrice | currency}}</td>
+            </tr>
+        </tbody>
+    </table>*@

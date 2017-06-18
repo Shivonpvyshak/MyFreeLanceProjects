@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "Data Import";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/DataImport.css" rel="stylesheet" />
+
+<span><h2>Parts Data Import</h2></span>
+
+<div ng-app="theApp" ng-controller="fileUploadController">
+
+    <div id="pricing-table" class="clear">
+
+        <div class="plan">
+            <h3>
+                Parts Data Upload
+            </h3>
+            @*<span class="fa fa-spinner fa-spin" ng-show="isImportExecuting" ></span>*@
+            <span class="fa fa-spinner fa-pulse fa-5x fa-fw" ng-show="isPartImportExecuting"></span>
+
+            <ul>
+                <li>
+                    <b>Select the Company<br /><br /></b><select id="Make"
+                                                                 ng-init="Make = allCompanies[0]"
+                                                                 class="form-control"
+                                                                 data-ng-options="r.companyName for r in allCompanies"
+                                                                 data-ng-model="Make"
+                                                                 placeholder="Select a Make"></select>
+                </li>
+
+                <li>
+                    <b>Select the Parts Price details File (excel)<br /><br /></b>
+
+                    <input type="file" id="PartsFile" placeholder="*.xlsx"
+                           accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                           onchange="angular.element(this).scope().selectPartFileforUpload(this.files)" />
+                </li>
+                <li><b><button type="submit" ng-click="UploadPartFile(Make.companyID)" class="btn btn-success"><span class="glyphicon glyphicon-upload"></span> Upload Files</button></b> </li>
+                <li>
+                    @*<button type="submit" class="btn btn-success" ng-disabled="!(isFileUploadSuccess)" disabled
+                        onclick="location.href='@Url.Action("ImportData")?&makeID=' + $('#Make option:selected').val()">*@
+
+                    <button type="submit" class="btn btn-success" ng-disabled="!(isFileUploadSuccess)" disabled ng-click="ImportPartData(Make.companyID)">
+
+                        @*<span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>*@
+                        @*<span ng-show="isFileUploadSuccess" class="glyphicon glyphicon-import"></span>*@
+                        <span class="glyphicon glyphicon-import"></span> Import
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="planmid" id="most-popular">
+
+            <span class="fa fa-cog fa-spin fa-5x fa-fw"></span>
+
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        </div>
+        <div class="plan">
+            <h3>Parts Price Upload</h3>
+            <span class="fa fa-spinner fa-pulse fa-5x fa-fw" ng-show="isPartPriceImportExecuting"></span>
+
+            <ul>
+                <li><br /><br /><br /></li>
+                <br />
+                <li>
+                    <b>Select the Parts Price details File (excel)</b><br /><br />
+                    <input type="file" id="PriceFile" placeholder="*.xlsx"
+                           accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                           onchange="angular.element(this).scope().selectPartPriceFileforUpload(this.files)">
+                </li>
+                <li><button type="submit" ng-click="UploadPartPriceFile()" class="btn btn-success" ng-disabled=""><span class="glyphicon glyphicon-upload"></span> Upload Files</button></li>
+                <li>
+                    <button type="submit" class="btn btn-success" ng-disabled="!(isPartPriceUploadSuccess)" disabled ng-click="ImportPartPriceData()">
+
+                        <span class="glyphicon glyphicon-import"></span> Import
+                    </button>
+                </li>
+                @*<li><b>Unlimited</b> subdomains</li>*@
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#PartsFile').filestyle({
+        buttonName: 'btn-info',
+        buttonText: ''
+    });
+
+    $('#PriceFile').filestyle({
+        buttonName: 'btn-info',
+        buttonText: ''
+    });
+</script>
+
+@*<h3>Step 1: Upload data template files (1. Part Details  | 2. Price Details)</h3>
+    <br />
+    <div class="col-xs-12">
+        <div class="col-xs-8">
+            <div class="col-xs-4"> <b>Select the Company / Make</b></div>
+            <div class="col-xs-8">
+                <select id="Make"
+                        ng-init="Make = allCompanies[0]"
+                        class="form-control"
+                        data-ng-options="r.companyName for r in allCompanies"
+                        data-ng-model="Make"
+                        placeholder="Select a Make"></select>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <div class="col-xs-12">
+        <div class="col-xs-8">
+            <div class="col-xs-4"><b>Select the Parts Data File (excel)</b></div>
+            <div class="col-xs-8">
+                <input type="file" accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" onchange="angular.element(this).scope().selectPartFileforUpload(this.files)" id="PartsFile">
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+    <div class="col-xs-12">
+        <div class="col-xs-8">
+            <div class="col-xs-4"><b>Select the Parts Price details File (excel)</b></div>
+            <div class="col-xs-8">
+                <input type="file" accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" onchange="angular.element(this).scope().selectPartPriceFileforUpload(this.files)" id="PriceFile">
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div class="col-xs-12">
+        <div class="pull-left">
+            <button type="submit" ng-click="UploadFile()" class="btn btn-success" ng-disabled=""><span class="glyphicon glyphicon-upload"></span> Upload Files</button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <h3>Step 2: Validate the File</h3>
+    <br />
+    <div class="col-xs-12">
+        <div class="pull-left">
+            <button type="submit" ng-click="" class="btn btn-success" ng-disabled=""><span class="glyphicon glyphicon-thumbs-up"></span> Validate Data</button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <h3>Step 3: Import Part Details</h3>
+    <br />
+
+    <div class="col-xs-12">
+        <div class="pull-left">
+
+            <button type="submit" class="btn btn-success"
+                    onclick="location.href='@Url.Action("ImportData")?&makeID=' + $('#Make option:selected').val()">
+                <span class="glyphicon glyphicon-import"></span> Import
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <h3>Step 4: Import Parts Price(if any)</h3>
+    <br />
+
+    <div class="col-xs-12">
+        <div class="pull-left">
+
+            <button type="submit" class="btn btn-success"
+                    onclick="location.href='@Url.Action("ImportData")?&makeID=' + $('#Make option:selected').val()">
+                <span class="glyphicon glyphicon-import"></span> Import
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div style="width: 1000px">
+    </div>*@

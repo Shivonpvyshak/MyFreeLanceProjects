@@ -1,0 +1,47 @@
+﻿.dashboardtable {
+    /*color: #333;*/
+    font-family: Helvetica,Arial,sans-serif;
+    width: 100%;
+    border-spacing: 2px;
+    border-collapse: separate;
+    padding: 0 3px;
+    /*table-layout: fixed;*/
+    border:1px;
+    border-color:black;
+}
+
+    .dashboardtable td, th {
+        height: 30px;
+        /*transition: all 1s;*/
+        /*width:auto;*/
+    }
+
+    .dashboardtable table, td, th {
+    border: 1px solid black;
+}
+
+    .dashboardtable td {
+        word-wrap: break-word;
+    }
+
+#invoicetable tr:nth-child(even) td {
+    background: #FFFFFF;
+}
+
+#invoicetable tr:nth-child(odd) td {
+    background: #FFFFFF;
+}
+
+#invoicetable th {
+    background: #CCCCCC;
+    font-weight: 120;
+    color: black;
+    text-align: center;
+}
+#invoicetable td{
+     text-align: center;
+}
+
+#totalsection td{
+    padding: 8px;
+}

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A02D08B8-0A19-42FC-A77F-1ADBAD2926A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BrownsIntranetApps.BL</RootNamespace>
+    <AssemblyName>BrownsIntranetApps.BL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomerBL.cs" />
+    <Compile Include="Interface\ICustomerBL.cs" />
+    <Compile Include="Interface\IInvoiceBL.cs" />
+    <Compile Include="Interface\ILogsBL.cs" />
+    <Compile Include="Interface\IPartBL.cs" />
+    <Compile Include="Interface\IRepairBL.cs" />
+    <Compile Include="InvoiceBL.cs" />
+    <Compile Include="LogsBL.cs" />
+    <Compile Include="Mappers\CustomerMapper.cs" />
+    <Compile Include="Mappers\InvoiceItemMapper.cs" />
+    <Compile Include="Mappers\InvoiceLaborMapper.cs" />
+    <Compile Include="Mappers\InvoiceMapper.cs" />
+    <Compile Include="Mappers\RepairMapper.cs" />
+    <Compile Include="PartBL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepairBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrownsIntranetApps.Common\BrownsIntranetApps.Common.csproj">
+      <Project>{237c6842-c04f-4b5e-813c-80269ca88ba1}</Project>
+      <Name>BrownsIntranetApps.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrownsIntranetApps.DAL\BrownsIntranetApps.DAL.csproj">
+      <Project>{af33f1d5-8e9d-4383-962d-1657ecd4452c}</Project>
+      <Name>BrownsIntranetApps.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrownsIntranetApps.DTO\BrownsIntranetApps.DTO.csproj">
+      <Project>{5522402a-ffa6-4675-b678-b62215cc7a1b}</Project>
+      <Name>BrownsIntranetApps.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrownsIntranetApps.Entity.SQL\BrownsIntranetApps.Entity.SQL.csproj">
+      <Project>{f1cc7cbd-b33a-4ee2-a312-3d1abf082682}</Project>
+      <Name>BrownsIntranetApps.Entity.SQL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

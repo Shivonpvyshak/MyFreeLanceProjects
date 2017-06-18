@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Parts Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <img src="~/Content/Images/bheTopBanner.PNG" />
+</div>
+@*<div class="jumbotron">
+        <h1>Taxonomy Services</h1>
+        <p>
+            The TRIAD Taxonomy Repository is intended to be the authority, within the scope of TRIAD systems,
+            for basic taxonomic nomenclature and classification information. It extends the NCBI Taxonomy Database by incorporating DuPont-Pioneer
+            proprietary organisms. The repository provides services supporting simple queries related to scientific and common names of taxa, their lineage, rank, and
+            subclassifications.
+        </p>
+        <p>To get started, <a href="~/Docs">please review the documentation.</a></p>
+    </div>*@
+
+<br />
+
+<div class="container" ng-app="theApp" ng-controller="partsHomeController">
+    <div>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+
+                <form ng-submit="executeSearch(searchText)">
+                    <div class="col-xs-12">
+                        <h2>Search</h2>
+                    </div>
+
+                    <div class="col-xs-9">
+                        <input ng-model="searchText" type="text" class="form-control" placeholder="Enter search term" required autofocus />
+                    </div>
+                    <div class="col-xs-3">
+
+                        <div class="btn-group" dropdown>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!(searchText)" disabled>
+                                <span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>
+                                <span ng-show="!isSearchExecuting" class="glyphicon glyphicon-search"></span>
+                                Search by Part #
+                            </button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="!(searchText)" disabled>
+                                <span class="caret"></span>
+                                <span class="sr-only">Split button!</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+
+                                <li><a href="#" ng-click="executePartbyDescSearch($event, searchText)">By Part Description</a></li>
+                                <li><a href="#" ng-click="executeModelBySearch($event, searchText)">By Model</a></li>
+                            </ul>
+                        </div>
+
+                        <span class="glyphicon glyphicon-question-sign" popover popover-trigger="mouseenter" popover-template="searchHelpTemplateId" popover-placement="left" popover-title="Search Help"></span>
+
+                        <script type="text/ng-template" id="searchHelp.html">
+
+                            <p><strong>Search by Part Number:</strong>  Use to find the "Parts" with a the Part Number which exactly matches the entire search text</p>
+
+                            <p><strong>Search by Part Description:</strong>  Use to find the "Parts" with a description which likely matches the entire search text.</p>
+                            <p class="text-danger">
+
+                                <span class="fa fa-exclamation-triangle"></span>
+
+                                Warning: When using the "Part Description Search" please avoid very short words
+                            </p>
+                            <p><strong>Search by Model:</strong> Use to find the "Parts" with a the Model which exactly matches the entire search text</p>
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />

@@ -1,0 +1,8 @@
+For Reports
+-------------------------------
+Install below nuget Package
+Install-Package Microsoft.ReportViewer.2015.Runtime
+
+Install latest Report Viewer Runtime
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=45496 
+Always keep D:\BrownsApp\Web\BrownsReports\ folder and rdl files in deployment folder

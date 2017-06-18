@@ -1,0 +1,358 @@
+﻿@{
+    ViewBag.Title = "SearchPartsInvoice";
+    Layout = "~/Views/Shared/_LayoutBillingHome.cshtml";
+}
+
+@*<h2>Parts Invoice Search</h2>*@
+<div class="container ng-cloak" ng-app="theApp" ng-cloak ng-controller="partsInvoiceController">
+
+    <div class="col-xs-12">
+        <div class="col-xs-3">
+            <br />
+            <input ng-model="invoiceNumber" type="text" class="form-control" placeholder="Enter Invoice Number" required autofocus />
+        </div>
+        <div class="col-xs-7">
+            <br />
+            <button type="reset" class="btn btn-primary" ng-disabled="!(invoiceNumber)" ng-click="searchInvoice(invoiceNumber)">
+                <span class="glyphicon glyphicon-search"></span>
+                Search
+            </button>
+
+            <button class="btn btn-success" ng-click="navigateToAddInvoice()">
+                <span class="glyphicon glyphicon-plus"></span> Add New Part Invoice
+            </button>
+        </div>
+        <br />
+    </div>
+
+    <br /><br />
+
+    @*---------------------*@
+    <div style="padding:10px; border:1px solid  thin; width:100%;height:130px" ng-cloak ng-show="searchSuccess!=undefined && searchSuccess==true">
+        <form class="form-horizontal" name="partsInvoiceForm" ng-submit="Submit()">
+
+            <br /><div class="col-xs-12" style="border-bottom:1px dotted">
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <img src="~/Content/Images/bhe.png" width="300" height="100" /><br /><h6> <b>1926 E. Lincoln Way, Ames, IA  50010 Ph: (800) 723-5460</b> </h6>
+                </div>
+                <div class="col-xs-6">
+
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6" style="margin-bottom: 4px;">
+                        <div class='input-group date' style="color:indianred">
+                            Invoice#: <b>{{InvoiceDTO.InvoiceNumber}}</b>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6" style="margin-bottom: 4px;">
+                        <div class='input-group date'>
+                            Invoice Date: <b>{{InvoiceDTO.InvoiceDate| date}}</b>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6" style="margin-bottom: 4px;">
+                        @*<div class="col-xs-4"><b>Status</b></div>*@
+
+                        <div class='input-group date'>
+                            Invoice Status:<b> {{InvoiceDTO.InvoiceStatus.TypeCode}}</b>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                    </div>
+                    <div class="col-xs-6" style="margin-bottom: 4px;">
+                        <div class='input-group date' id=''>
+                            County : <b>{{InvoiceDTO.County.TypeCode}}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12" style="border-bottom:1px dotted">
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <br />
+                <div class="col-xs-6">
+                    <div class="col-xs-1">
+                        <span>
+                            <img src="~/Content/Images/cust.ico" style="width:40px; height:40px" />
+                        </span>
+                    </div>
+                    <div class="col-xs-3"><h4><b>Customer:</b></h4></div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+
+                            <h4> <b> {{InvoiceDTO.Customer.Name}}</b></h4>
+                        </div>
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="col-xs-6"></div>
+            </div>
+
+            @*Address*@
+            <div class="col-xs-12">
+
+                <div class="col-xs-6">
+                    <span class="glyphicon glyphicon-envelope"></span>    <b>Address</b>
+
+                    <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                        {{InvoiceDTO.Customer.Address1}} {{InvoiceDTO.Customer.Address2}}
+                    </div>
+                    <br />
+
+                    <div class="col-xs-12" style="margin-bottom: 1px;">
+                        {{InvoiceDTO.Customer.City}} {{InvoiceDTO.Customer.State.TypeCode}} {{InvoiceDTO.Customer.Zip}}
+                    </div>
+                </div>
+                <div class="col-xs-6" ng-show="InvoiceDTO.IsStorePickUp">
+                    <br />
+                    <img src="~/Content/Images/pickup.png" style="width:250px;height:150px" />
+                </div>
+                <div class="col-xs-6" ng-show="!InvoiceDTO.IsStorePickUp">
+                    <div class="col-xs-12">
+                        <span class="glyphicon glyphicon-envelope"></span>  <b>Shipping Address  </b>
+                    </div>
+
+                    <div class="col-xs-12" style="margin-bottom: 1px;">
+                        {{InvoiceDTO.Customer.ShippingAddress1}} {{InvoiceDTO.Customer.ShippingAddress2}}
+                    </div>
+                    <br />
+                    @*<div class="col-xs-12" style="margin-bottom: 1px;">
+
+                        {{InvoiceDTO.Customer.ShippingAddress2}}
+                    </div>*@
+                    <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                        {{InvoiceDTO.Customer.ShippingCity}} {{InvoiceDTO.Customer.ShippingState.TypeCode}} {{InvoiceDTO.Customer.ShippingZip}}
+                    </div>
+
+                    @*<div class="col-xs-6">
+                        {{InvoiceDTO.Customer.ShippingState.TypeCode}},{{InvoiceDTO.Customer.ShippingZip}}
+                    </div>
+                    <div class="col-xs-6">
+                    </div>*@
+                </div>
+            </div>
+            <br />
+
+            <div class="col-xs-12">
+                <br />
+                <table class="dashboardtable" id="invoicetable">
+
+                    <thead>
+                        <tr>
+
+                            <th>
+                                Sales Rep
+                            </th>
+                            <th>
+                                Shipping Method
+                            </th>
+                            <th>
+                                Payment
+                            </th>
+                            <th>
+                                Customer P.O
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td class="form-group" ng-class="{'has-error': partsInvoiceForm.salesrep.$invalid}">
+                                {{InvoiceDTO.SalesRep}}
+                            </td>
+                            <td>
+                                {{InvoiceDTO.ShippingMethod.TypeCode}}
+                            </td>
+                            <td>
+                                {{InvoiceDTO.PaymentStatus.TypeCode}}
+                            </td>
+                            <td class="form-group" ng-class="{'has-error': partsInvoiceForm.cutomerpo.$invalid}">
+                                {{InvoiceDTO.CustomerPO}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12">
+                <br />
+            </div>
+
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <table class="dashboardtable" id="invoicetable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr ng-repeat="item in pItems = (InvoiceDTO.InvoiceItems )">
+
+                                <td>
+                                    <b>  {{item.Quantity}}</b>
+                                </td>
+                                <td>
+                                    <b>{{item.Description}}</b>
+                                </td>
+                                <td>
+                                    <b>{{item.Price | currency}}</b>
+                                </td>
+                                <td>
+                                    <b>{{item.Total | currency}}</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-6">
+
+                    <table class="dashboardtable" id="invoicetable">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><span style="color:white">Accept only numbers with a maximum of 5 decimal places</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Parts Subtotal:</b></td>
+                                <td>
+                                    <b> {{InvoiceDTO.PartsSubTotal==null?0:InvoiceDTO.PartsSubTotal|currency}}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Tax:</b></td>
+                                <td class="form-group" ">
+                                    <b>
+                                        {{InvoiceDTO.Tax==null?0:InvoiceDTO.Tax|currency}}
+                                    </b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Freight</b></td>
+                                <td class="form-group">
+                                    <b>
+                                        {{InvoiceDTO.Freight==null?0:InvoiceDTO.Freight|currency}}
+                                    </b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <br />
+                <div class="col-xs-6"></div>
+                <div class="col-xs-6">
+                    <table class="dashboardtable" id="invoicetable">
+                        <tr>
+                            <td><h2><b>Total</b></h2></td>
+                            <td>
+
+                                <h2><b>{{InvoiceDTO.Total =InvoiceDTO.PartsSubTotal -- InvoiceDTO.Tax -- InvoiceDTO.Freight | currency}}</b></h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Balance Due</b></td>
+                            <td class="form-group">
+                                <b>
+                                    {{InvoiceDTO.BalanceDue==null?0:InvoiceDTO.BalanceDue|currency}}
+                                </b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <br />
+                @*<span>
+                    <img src="~/Content/Images/comments.png" style="width:60px;height:60px" />
+                </span>*@
+
+                <b> COMMENTS:</b>
+                <br />
+                <div class="col-xs-12">
+                    <br />
+                    {{InvoiceDTO.Comments}}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <br />
+                <div class="col-xs-6">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="editInvoice($event)()"><span class="glyphicon glyphicon-print"></span> Edit Invoice</button>
+                </div>
+                <div class="col-xs-6" style="text-align:right">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deletePartInvoiceModal"><span class="glyphicon glyphicon-trash"></span> Delete </button>
+
+                     <button type="submit" class="btn btn-info" data-dismiss="modal" ng-click="printPartInvoice($event)()"><span class="glyphicon glyphicon-print"></span> Print</button>
+
+                     @Html.ActionLink("Back to Dashboard", "../BillingHome", null, new { @class = "btn btn-success" })
+
+
+                </div>
+            </div>
+        </form>
+
+        <div class="modal fade" id="deletePartInvoiceModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Delete Invoice
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="deletePartForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-12">
+                                Are you sure to delete the Invoice :- {{InvoiceDTO.InvoiceNumber}} ?
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-click="deleteInvoice(InvoiceDTO.InvoiceNumber)"  class="btn btn-success"><span class="glyphicon glyphicon-trash"></span>Ok</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

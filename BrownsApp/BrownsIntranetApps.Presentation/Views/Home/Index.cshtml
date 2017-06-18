@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+<head>
+    <style>
+              #f1_container {
+                  position: relative;
+                  margin: 10px auto;
+                  width: 450px;
+                  height: 281px;
+                  z-index: 1;
+              }
+
+              #f1_container {
+                  perspective: 1000;
+              }
+
+              #f1_card {
+                  /*width: 100%;
+        height: 100%;*/
+                  width: 200px;
+                  height: 150px;
+                  transform-style: preserve-3d;
+                  transition: all 1.0s linear;
+              }
+
+              #f1_container:hover #f1_card {
+                  transform: rotateY(180deg);
+                  box-shadow: -5px 5px 5px #aaa;
+              }
+
+              .face {
+                  position: absolute;
+                  /*width: 100%;
+        height: 100%;*/
+                  width: 200px;
+                  height: 150px;
+                  backface-visibility: hidden;
+              }
+
+                  .face.back {
+                      display: block;
+                      transform: rotateY(180deg);
+                      box-sizing: border-box;
+                      padding: 10px;
+                      color: black;
+                      text-align: center;
+                      /*background-color: #aaa;*/
+                      background-color: whitesmoke;
+                  }
+    </style>
+</head>
+
+<div ng-app="theApp" ng-cloak>
+    <div ng-controller="homeController" class="row">
+
+        <div class="container">
+            <div class="row">
+                @*Parts*@
+                <div class="col-xs-4">
+
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                <img width="200px" height="150px" src="~/Content/Images/Parts2.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>BHE Parts App</b></p>
+                                <p>This app serves BHE's Parts Management</p>
+
+                                @if (ViewBag.IsPartsAuthorize != null && ViewBag.IsPartsAuthorize == "true")
+                                {
+                                    <a href="@Url.Action("PartsLogin")?&username=' + $('#partsusername').val()+ '&password=' + $('#partspassword').val()" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+                                }
+                                else
+                                {
+                                    <a href="#" data-toggle="modal" data-target="#partLoginModal" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Billing*@
+                <div class="col-xs-4">
+
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                <img width="150px" height="150px" src="~/Content/Images/BillingHome.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>BHE Billing App</b></p>
+                                <p>This app serves BHE's Billing Management</p>
+                                 <a href="@Url.Action("BillingHomeLogin")" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Repair*@
+                <div class="col-xs-4">
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                <img width="150px" height="130px" src="~/Content/Images/Repair.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>Repair App</b></p>
+                                <p>This app serves BHE's Repairs Management</p>
+                                <a href="@Url.Action("RepairHomeLogin")" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Customer App*@
+                <div class="col-xs-4">
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                <img width="150px" height="150px" src="~/Content/Images/Customer.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>Customer App</b></p>
+                                <p>This app serves BHE's Customer Management</p>
+                                <a href="@Url.Action("CustomerHomeLogin")" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*BHE API*@
+                <div class="col-xs-4">
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                     <img width="180px" height="150px"  src="~/Content/Images/apiIcon.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>BHE API's</b></p>
+                                <p>This is where BHE API's parked</p>
+                                <a href="http://api.brownsheavyequipment.com/swagger/ui/index" target="_blank" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>
+
+                                
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Future App*@
+                <div class="col-xs-4">
+                    <div id="f1_container">
+                        <div id="f1_card" class="shadow">
+                            <div class="front face">
+                                <img width="150px" height="150px" src="~/Content/Images/FutureSpace.png" />
+                            </div>
+                            <div class="back face center">
+                                <p><b>Future App</b></p>
+                                <p>This space is for BHE future Apps</p>
+                                @*<a href="#" data-toggle="modal" data-target="#partLoginModal" class="btn btn-success"> <span class="glyphicon glyphicon-log-in"></span> Get me in</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*--------------------------------------------Login Modals---------------------------------------------------------------------------------------*@
+        <div class="modal fade" id="partLoginModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Enter the Parts Admin Credentials
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="partLoginForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-12">
+                                <div class="col-xs-4">
+                                    <label class="control-label">User Name</label>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group" ng-class="">
+
+                                        <input class="form-control"
+                                               name="newModel"
+                                               id="partsusername"
+                                               required
+                                               value="bheadmin"
+                                               placeholder="Enter User Name" />
+
+                                        <p class="text-danger"
+                                           ng-show="partLoginForm.partusername.$error.required">
+                                            Required
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <label class="control-label">Password</label>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group" ng-class="">
+
+                                        <input class="form-control"
+                                               name="newScientificName"
+                                               id="partspassword"
+                                               type="password"
+                                               placeholder="Enter Password"
+                                               required
+                                               autofocus />
+
+                                        <p class="text-danger"
+                                           ng-show="partLoginForm.partpassword.$error.required">
+                                            Required
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-disabled="!partLoginForm.$valid" class="btn btn-success"
+                                    onclick="location.href='@Url.Action("PartsLogin")?&username=' + $('#partsusername').val()
+                                                                                        + '&password=' + $('#partspassword').val()">
+                                <span class="glyphicon glyphicon-log-in"></span> Login
+                            </button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="billingLoginModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Enter the Billing Admin Credentials
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="billingLoginForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-12">
+                                <div class="col-xs-4">
+                                    <label class="control-label">User Name</label>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group" ng-class="">
+
+                                        <input class="form-control"
+                                               name="newModel"
+                                               ng-model="username"
+                                               required
+                                               placeholder="Enter User Name" />
+
+                                        <p class="text-danger"
+                                           ng-show="billingLoginForm.username.$error.required">
+                                            Required
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <label class="control-label">Password</label>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group" ng-class="">
+
+                                        <input class="form-control"
+                                               name="newScientificName"
+                                               ng-model="password"
+                                               required
+                                               type="password"
+                                               placeholder="Enter Password"
+                                               autofocus />
+
+                                        <p class="text-danger"
+                                           ng-show="billingLoginForm.password.$error.required">
+                                            Required
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" class="btn btn-success"
+                                    onclick="location.href='@Url.Action("ImportData")?&makeID=' + $('#Make option:selected').val()">
+
+                                <span class="glyphicon glyphicon-log-in"></span> Login
+                            </button>
+
+                            @*<button type="submit" class="btn btn-success"
+                                onclick="location.href='@Url.Action("PartsHomeLogin")?&username=' + $('#Make option:selected').val()">*@
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*------------------------------------------------------------------------------------------------------------------------------------------------*@
+    </div>
+</div>

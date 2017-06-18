@@ -1,0 +1,155 @@
+﻿@model BrownsIntranetApps.Presentation.Models.Repair.RepairVM
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutRepairHome.cshtml";
+}
+
+<div>
+    @if (TempData["Exception"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Error:</strong> @TempData["Exception"]
+        </div>
+    }
+    <h3><img src="~/Content/Images/Repair.png" style="width:80px; height:60px" /> Repair Details : Repair # @Model.RepairNumber</h3>
+    <hr />
+    @using (Html.BeginForm("Delete", "Repair", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-5">
+
+                    <div class="col-xs-4 divPadding"><b>Repair Type</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.RepairType)
+                        @Html.HiddenFor(model => model.Id)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>ID #</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.RepairNumber)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Customer</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.CustomerName)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Date-Time</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.InvoiceDate)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Make</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.Make)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Model</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.MachineModel)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Unit#</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.UnitNumber)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Sn.#</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.SerialNumber)
+                    </div>
+                </div>
+
+                @*<div class="col-xs-1"></div>*@
+
+                @*===================================================Right===================================================================*@
+                <div class="col-xs-7" style="border-left:dotted">
+                    <div class="col-xs-4 divPadding"><b>Machine Hours</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.MachineHours)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Machine Miles</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.MachineMiles)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Total Bill</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div class='input-group date'>
+                            @Html.DisplayFor(model => model.TotalBill)
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Labor</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div class='input-group date'>
+                            @Html.DisplayFor(model => model.Labor)
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Parts</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div class='input-group date'>
+                            @Html.DisplayFor(model => model.Parts)
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Parts Cost</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div class='input-group date'>
+                            @Html.DisplayFor(model => model.PartsCost)
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Labor Hours</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DisplayFor(model => model.LaborHours)
+
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Vendor Invoices</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @if (Model.VendorInvoicesFile != "")
+                        {
+                        @Html.ActionLink(Model.VendorInvoicesFile, "DownloadFile", "Repair", new { Id = Model.Id, filename = Model.VendorInvoicesFile }, null)
+                        }
+                        else
+                        {
+                        <small style="color:indianred"> No File Selected</small>
+                        }
+
+                    </div>
+                    <div class="col-xs-4 divPadding"><b>Service Report & Bill</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @if (Model.ServiceReportBillFile != "")
+                        {
+                        @Html.ActionLink(Model.ServiceReportBillFile, "DownloadFile", "Repair", new { Id = Model.Id, filename = Model.ServiceReportBillFile }, null)
+                        }
+                        else
+                        {
+                        <small style="color:indianred">No File Selected</small>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-9 col-md-10">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+                <input type="submit" value="Delete" class="btn btn-danger" /> | 
+                @Html.ActionLink("Back to List", "../RepairHome/RepairHome", null, new { @class = "btn btn-success" })
+
+            </div>
+        </div>
+
+    }
+
+</div>

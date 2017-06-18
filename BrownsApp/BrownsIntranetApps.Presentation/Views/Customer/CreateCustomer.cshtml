@@ -1,0 +1,360 @@
+﻿@{
+    ViewBag.Title = "CreateCustomer";
+    Layout = "~/Views/Shared/_LayoutCustomerHome.cshtml";
+}
+
+
+    <script src="~/Scripts/app/global.js"></script>
+
+<div class="container" ng-app="theApp" ng-controller="customerController" ng-cloak>
+    <div ng-show="CustomerDTO.ID == 0 || CustomerDTO.ID==null "><h3> <img src="~/Content/Images/cust.ico" style="width:80px;height:70px" /><b>C</b>reate <b>C</b>ustomer</h3></div>
+    <div ng-show="CustomerDTO.ID>0"><h3> <img src="~/Content/Images/cust.ico" style="width:80px;height:70px" /><b>E</b>dit <b>C</b>ustomer</h3></div>
+    <hr />
+    <form class="form-horizontal" name="customerForm" ng-submit="Submit()">
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="col-xs-4 divPadding"><b>Customer</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div ng-class="{'has-error': partsInvoiceForm.customername.$invalid}">
+                            <input class="form-control"
+                                   ng-model="CustomerDTO.Name"
+                                   name="customername"
+                                   required />
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Contact</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.Contact"
+                               name="contact"/>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Position</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.Position"
+                               name="position"
+                               required />
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Phone#</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control phoneNumber"
+                               ng-model="CustomerDTO.PhoneNumber"
+                               id="phoneNumber"
+                               name="phonenumber" 
+                               onkeydown="$.validateDataTypeOnKeyPressEvent(event, 'int', 'phoneErrSpan')" />
+                        <span class="error phoneErrSpan"></span>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Fax</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control phoneNumber"
+                               ng-model="CustomerDTO.Fax"
+                               name="fax"
+                               onkeydown="$.validateDataTypeOnKeyPressEvent(event, 'int', 'faxErrSpan')" />
+                        <span class="error faxErrSpan"></span>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Email</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.Email"
+                               name="email" />
+                        <span class="error emailErrSpan"></span>
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Billing Contact</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.BillingContact"
+                               name="bilingcontact" />
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Billing Email</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.BillingEmail"
+                               name="billingemail" />
+                    </div>
+                    <div class="col-xs-4 divPadding"><b>Billing Phone</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control phoneNumber"
+                               ng-model="CustomerDTO.BillingPhone"
+                               name="billingphone"  onkeydown="$.validateDataTypeOnKeyPressEvent(event, 'int', 'billingPhoneErrSpan')" />
+                        <span class="error billingPhoneErrSpan"></span>
+                    </div>
+                    <div class="col-xs-4 divPadding"><b>Tax Exempt #</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <input class="form-control"
+                               ng-model="CustomerDTO.TaxExcemptNumber"
+                               name="taxexempt" />
+                    </div>
+                </div>
+
+                
+                @*===================================================Right===================================================================*@
+                <div class="col-xs-6" style="border-left:dotted">
+
+                    @*Address*@
+                    <div class="col-xs-12">
+                        <span class="glyphicon glyphicon-envelope"></span>    <b>Address</b>
+                        <div class="col-xs-12">
+                            <br />
+
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.address1.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.Address1"
+                                       name="address1"
+                                       required
+                                       placeholder="Address Line1" style="width:350px" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.address2.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.Address2"
+                                       name="address2"
+                                       placeholder="Address Line2" style="width:350px" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.address2.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.City"
+                                       name="address2"
+                                       required
+                                       placeholder="City" style="width:350px" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{'has-error': partsInvoiceForm.addrstate.$invalid}">
+                                <select class="form-control"
+                                        id="addrstate"
+                                        ng-init="CustomerDTO.State = allStates[0]"
+                                        ng-options="s.TypeCodeID as s.TypeCode for s in allStates"
+                                        ng-model="CustomerDTO.State.TypeCodeID"
+                                        required></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{'has-error': partsInvoiceForm.addrzip.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.Zip"
+                                       name="addrzip"
+                                       ng-pattern="/^[0-9]{5}$/"
+                                       required
+                                       placeholder="Zip" style="width:100px" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    @*Shipping Address*@
+
+                    <div class="col-xs-12">
+                        <span class="glyphicon glyphicon-envelope"></span>  <b>Shipping Address  </b>
+                        <div class="checkbox checkbox-primary">
+                            <input id="shipping" type="checkbox" class="styled" ng-model="CustomerDTO.IsShippingSameAsAddress"
+                                   ng-disabled="(!CustomerDTO.Address1 || !CustomerDTO.Zip)" ng-click="getSameAddrress(CustomerDTO.IsShippingSameAsAddress)">
+                            <label for="shipping">
+                                Check if same as Address
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+                            <br />
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.saddr1.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.ShippingAddress1"
+                                       name="saddr1"
+                                       placeholder="Address Line1" style="width:350px" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.saddr2.$invalid}">
+
+                                <input class="form-control"
+                                       name="saddr2"
+                                       ng-model="CustomerDTO.ShippingAddress2"
+                                       placeholder="Address Line2" style="width:350px" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                            <div style="margin-bottom: 3px;" class="form-group" ng-class="{'has-error': partsInvoiceForm.saddr2.$invalid}">
+
+                                <input class="form-control"
+                                       name="saddr2"
+                                       ng-model="CustomerDTO.ShippingCity"
+                                       placeholder="City" style="width:350px" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <select id="shpAddrState"
+                                        class="form-control"
+                                        ng-init="CustomerDTO.ShippingState = shippingStates[0]"
+                                        ng-options="ss.TypeCodeID as ss.TypeCode for ss in shippingStates"
+                                        ng-model="CustomerDTO.ShippingState.TypeCodeID"
+                                        placeholder="Shipping State"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{'has-error': partsInvoiceForm.shippingzip.$invalid}">
+
+                                <input class="form-control"
+                                       ng-model="CustomerDTO.ShippingZip"
+                                       ng-pattern="/^[0-9]{5}$/"
+                                       name="shippingzip"
+                                       placeholder="Zip" style="width:100px" />
+                                </div>
+                        </div>
+                    </div>
+
+                    @*Tax Jurisdiction*@
+
+                    <div class="col-xs-12">
+                        <span class="glyphicon glyphicon-equalizer"></span>    <b>Tax Jurisdiction</b>
+                        <br />
+
+                        <div class="col-xs-12" style="margin-bottom: 3px;" ng-init="CustomerDTO.TaxJurisdiction='IOWA-Tax'">
+
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdIOWA" value="IOWA-Tax" ng-model="CustomerDTO.TaxJurisdiction" name="taxJurisdiction" checked="checked">
+                                    <label for="inlineRadio1"> IOWA-Tax </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdNebraska" value="Nebraska-Tax" ng-model="CustomerDTO.TaxJurisdiction" name="taxJurisdiction">
+                                    <label for="inlineRadio1"> Nebraska-Tax </label>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdOutofState" value="Out-of-state" ng-model="CustomerDTO.TaxJurisdiction" name="taxJurisdiction">
+                                    <label for="inlineRadio1"> Out of State</label>
+                                </div>
+                            </div>
+                         </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 3px;">
+                            <b>Tax Classification</b>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 3px;" ng-init="CustomerDTO.TaxClassification='RegularTax'">
+                            <div style="margin-bottom: 3px;" class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdRegularTax" value="RegularTax" ng-model="CustomerDTO.TaxClassification" name="taxClassification" checked="checked">
+                                    <label for="inlineRadio1"> Regular Tax </label>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 3px;" class="col-xs-6">
+
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdResale" value="Resale" ng-model="CustomerDTO.TaxClassification" name="taxClassification">
+                                    <label for="inlineRadio1"> Resale </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 3px;">
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdManufacturing" value="Manufacturing" ng-model="CustomerDTO.TaxClassification" name="taxClassification">
+                                    <label for="inlineRadio1"> Manufacturing </label>
+                                </div>
+                            </div>
+
+                           
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdGovernment" value="Government" ng-model="CustomerDTO.TaxClassification" name="taxClassification">
+                                    <label for="inlineRadio1"> Government </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-bottom: 3px;" class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdFarming" value="Farming" ng-model="CustomerDTO.TaxClassification" name="taxClassification">
+                                    <label for="inlineRadio1"> Farming </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="rdOutofState" value="OutofState" ng-model="CustomerDTO.TaxClassification" name="taxClassification">
+                                    <label for="inlineRadio1"> Out of State </label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    @*------------------------------------------------------------------------*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 divPadding">
+            <br />
+            <span>
+                <img src="~/Content/Images/comments.png" style="width:60px;height:60px" />
+            </span><b> Add your Notes here ...</b>
+            <br />
+            <div class="col-xs-12">
+                <br />
+                <textarea class="form-control" name="comments" ng-model="CustomerDTO.Notes" cols="40" rows="5"></textarea>
+            </div>
+        </div>
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-10">
+                
+                <button type="submit" ng-click="addCustomer($event)"  onclick="$.validateEmailId(event, 'emailErrSpan')" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Create</button>
+
+                | @Html.ActionLink("Back to List", "../CustomerHome/CustomerHome", null, new { @class = "btn btn-success" })
+
+
+            </div>
+        </div>
+
+        @*<div class="col-xs-12 divPadding">
+            <br />
+            <div class="col-xs-6">
+                <button type="submit" ng-click="addCustomer($event)" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Submit & Save</button>
+                
+            </div>
+            <div class="col-xs-6" style="text-align:right">
+                <button type="reset" class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-folder-close"></span> Close</button>
+            </div>
+        </div>*@
+    </form>
+</div>
+
+<script>
+    $(function () {
+        //Phonenumber
+        //$.formatPhoneNumber('phoneNum');
+        //-----------------------------------------------------------------------------------
+    });
+</script>

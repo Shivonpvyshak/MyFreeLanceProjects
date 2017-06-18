@@ -1,0 +1,230 @@
+﻿@model BrownsIntranetApps.Presentation.Models.Repair.RepairVM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutRepairHome.cshtml";
+}
+
+@if (TempData["Exception"] != null)
+{
+    <div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <strong>Error:</strong> @TempData["Exception"]
+
+
+    </div>
+}
+<h2>
+    <img src="~/Content/Images/addRepair.png" width="60" height="60" />Create Repair
+</h2>
+<hr />
+@using (Html.BeginForm("Create", "Repair", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6">
+
+                    <div class="col-xs-4 divPadding"><b>Repair Type</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.DropDownListFor(model => model.RepairType, new SelectList(Model.RepairTypes), "Please Select a Repair Type", new { @class = "form-control", id = "RepairType" })
+                        @Html.ValidationMessageFor(model => model.RepairType, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Repair #</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.RepairNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RepairNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Customer</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", @Id = "customerName", @placeholder = "Search Customer" } })
+                        @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                        @Html.Hidden("customerId", Model.CustomerId)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Date</b></div>
+                    <div class="col-xs-8 divPadding">
+                        <div class='input-group date' id='dpInvoiceDate'>
+                            <input class="form-control"
+                                   id="invSelectedDate"
+                                   @*type="datetime-local"*@
+                                   type="date"
+                                   name="InvoiceDate"
+                                   value="@Model.InvoiceDate" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        @Html.Hidden("invDate", Model.InvoiceDate)
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Make</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Model</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.MachineModel, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MachineModel, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Unit #</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.UnitNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UnitNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-xs-4 divPadding"><b>Serial Number</b></div>
+                    <div class="col-xs-8 divPadding">
+                        @Html.EditorFor(model => model.SerialNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="col-xs-1" ></div>*@
+
+                @*===================================================Right===================================================================*@
+                <div class="col-xs-6" style="border-left:dotted">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Machine Hours</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <div class='input-group date'>
+                                @Html.EditorFor(model => model.MachineHours, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-hourglass"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MachineHours, "", new { @class = "text-danger" })
+
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4 divPadding"><b>Machine Miles</b></div>
+                        <div class="col-xs-8 divPadding">
+                            @Html.EditorFor(model => model.MachineMiles, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                            @Html.ValidationMessageFor(model => model.MachineMiles, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Total Bill</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <div class='input-group date'>
+                                @Html.EditorFor(model => model.TotalBill, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-usd"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.TotalBill, "", new { @class = "text-danger" })
+
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Labor</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <div class='input-group date'>
+                                @Html.EditorFor(model => model.Labor, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-usd"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Labor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Parts</b></div>
+                        <div class="col-xs-8 divPadding">
+
+                            @Html.EditorFor(model => model.Parts, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Parts, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Parts Cost</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <div class='input-group date'>
+                                @Html.EditorFor(model => model.PartsCost, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-usd"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PartsCost, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Labor Hours</b></div>
+                        <div class="col-xs-8 divPadding ">
+                            <div class='input-group date'>
+                                @Html.EditorFor(model => model.LaborHours, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-hourglass"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.LaborHours, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Vendor Invoices</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <label class="btn btn-info btn-file">
+                                Browse
+                                <input type="file" id="VendorInvoicesFileBase" name="VendorInvoicesFileBase" style="display: none;" />
+                            </label>    <label id="lblVendorInvoice" value="@Model.VendorInvoicesFile"></label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4 divPadding"><b>Service Report & Bill</b></div>
+                        <div class="col-xs-8 divPadding">
+                            <label class="btn btn-warning btn-file">
+                                Browse
+                                <input type="file" id="ServiceReportBillFileBase" name="ServiceReportBillFileBase" style="display: none;" />
+                            </label><label id="lblServiceReportBillFile" value="@Model.ServiceReportBillFile"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" onclick="actionOnCreateButtonClick()" />
+                | @Html.ActionLink("Back to List", "../RepairHome/RepairHome", null, new { @class = "btn btn-success" })
+
+
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts
+{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/app/common-scripts.js"></script>
+    <script src="~/Scripts/app/repair-create.js"></script>
+}
+

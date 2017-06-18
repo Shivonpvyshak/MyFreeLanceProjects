@@ -1,0 +1,993 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BrownsAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="200" />
+          <Property Name="Position" Type="varchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="15" />
+          <Property Name="Fax" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingContact" Type="varchar" MaxLength="200" />
+          <Property Name="BillingEmail" Type="varchar" MaxLength="200" />
+          <Property Name="BillingPhone" Type="varchar" MaxLength="15" />
+          <Property Name="TaxExcemptNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Address1" Type="varchar(max)" Nullable="false" />
+          <Property Name="Address2" Type="varchar(max)" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Zip" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StateID" Type="int" />
+          <Property Name="IsShippingSameAsAddress" Type="bit" />
+          <Property Name="ShippingAddress1" Type="varchar(max)" />
+          <Property Name="ShippingAddress2" Type="varchar(max)" />
+          <Property Name="ShippingCity" Type="varchar" MaxLength="50" />
+          <Property Name="ShippingState" Type="varchar" MaxLength="50" />
+          <Property Name="ShippingStateID" Type="int" />
+          <Property Name="ShippingZip" Type="varchar" MaxLength="50" />
+          <Property Name="TaxJurisdiction" Type="varchar" MaxLength="50" />
+          <Property Name="TaxClassification" Type="varchar" MaxLength="50" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoiceDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ShippingMethod" Type="varchar" MaxLength="50" />
+          <Property Name="PaymentStatus" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerPO" Type="varchar" MaxLength="50" />
+          <Property Name="SubTotal" Type="money" Nullable="false" />
+          <Property Name="Tax" Type="money" Nullable="false" />
+          <Property Name="Freight" Type="money" />
+          <Property Name="Total" Type="money" Nullable="false" />
+          <Property Name="BalanceDue" Type="money" />
+          <Property Name="Comments" Type="varchar(max)" />
+          <Property Name="TravelCharge" Type="money" />
+          <Property Name="TravelExpense" Type="money" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="SaleRep" Type="varchar" MaxLength="50" />
+          <Property Name="PartsSubTotal" Type="money" />
+          <Property Name="LaborSubTotal" Type="money" />
+          <Property Name="InvoiceStatus" Type="varchar" MaxLength="50" />
+          <Property Name="InvoiceStatusID" Type="int" />
+          <Property Name="ShippingMethodID" Type="int" />
+          <Property Name="PaymentStatusID" Type="int" />
+          <Property Name="InvoiceServiceID" Type="int" />
+          <Property Name="County" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsStorePickUp" Type="bit" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="CountyId" Type="int" />
+        </EntityType>
+        <EntityType Name="InvoiceItems">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Quantity" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Total" Type="money" Nullable="false" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InvoiceLabor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="LaborType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hours" Type="float" Nullable="false" />
+          <Property Name="Rate" Type="money" Nullable="false" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="LaborTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="InvoiceService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServicedAt" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ServiceStartDate" Type="datetime" Nullable="false" />
+          <Property Name="ServiceEndDate" Type="datetime" Nullable="false" />
+          <Property Name="Make" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SerialNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UnitNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Customer_TaxClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Regular" Type="bit" />
+          <Property Name="Manufacturing" Type="bit" />
+          <Property Name="Government" Type="bit" />
+          <Property Name="Resale" Type="bit" />
+          <Property Name="Farming" Type="bit" />
+          <Property Name="OutofState" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BrownsAppDB.dbo.ExceptionHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ExceptionHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Source" Type="varchar" MaxLength="200" />
+          <Property Name="Message" Type="varchar(max)" />
+          <Property Name="StackTrace" Type="varchar(max)" />
+          <Property Name="ExceptionDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Parts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="Make" Type="varchar" MaxLength="100" />
+          <Property Name="Model" Type="varchar" MaxLength="100" />
+          <Property Name="SerialNumberRange" Type="varchar(max)" />
+          <Property Name="PartNumber" Type="varchar" MaxLength="100" />
+          <Property Name="PartManual" Type="text" />
+          <Property Name="PartDescription" Type="varchar(max)" />
+          <Property Name="ListPrice" Type="varchar" MaxLength="50" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RepairNumber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RepairType" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="150" />
+          <Property Name="Date-Time" Type="datetime" />
+          <Property Name="Make" Type="varchar" MaxLength="150" />
+          <Property Name="Model" Type="varchar" MaxLength="150" />
+          <Property Name="UnitNumber" Type="varchar" MaxLength="50" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="150" />
+          <Property Name="MachineHours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="MachineMiles" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TotalBill" Type="money" />
+          <Property Name="Labor" Type="money" />
+          <Property Name="Parts" Type="money" />
+          <Property Name="PartsCost" Type="money" />
+          <Property Name="LaborHours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="VendorInvoicesFile" Type="varchar" MaxLength="150" />
+          <Property Name="ServiceReportBillFile" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK_Invoice_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="Invoice1" Type="Self.Invoice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Invoice_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Invoice_Service">
+          <End Role="InvoiceService" Type="Self.InvoiceService" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="InvoiceServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceItems_InvoiceItems_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceItems" Type="Self.InvoiceItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceItems">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLabor_InvoiceLabor_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceLabor" Type="Self.InvoiceLabor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceLabor">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parts_Company1">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Parts" Type="Self.Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parts">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Repair_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="DeleteInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Billing">
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCustomerReportData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Billing">
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="CustomerName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetSalesReportData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Billing">
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="AddException" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Source" Type="varchar" Mode="In" />
+          <Parameter Name="Message" Type="varchar(max)" Mode="In" />
+          <Parameter Name="StackTrace" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ExceptionDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetPartReportData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Make" Type="varchar" Mode="In" />
+          <Parameter Name="Model" Type="varchar" Mode="In" />
+          <Parameter Name="SerialNumberRange" Type="varchar(max)" Mode="In" />
+          <Parameter Name="PartNumber" Type="varchar" Mode="In" />
+          <Parameter Name="PartManual" Type="text" Mode="In" />
+          <Parameter Name="PartDescription" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdatePartsPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PartNumber" Type="varchar" Mode="In" />
+          <Parameter Name="ListPrice" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="BrownsAppDBModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="Billing" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="Billing" store:Type="Tables" />
+          <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItems" Schema="Billing" store:Type="Tables" />
+          <EntitySet Name="InvoiceLabor" EntityType="Self.InvoiceLabor" Schema="Billing" store:Type="Tables" />
+          <EntitySet Name="InvoiceService" EntityType="Self.InvoiceService" Schema="Billing" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_TaxClassification" EntityType="Self.Customer_TaxClassification" Schema="dbo" Table="Customer.TaxClassification" store:Type="Tables" />
+          <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repair" EntityType="Self.Repair" Schema="Repair" store:Type="Tables" />
+          <EntitySet Name="ExceptionHistory" EntityType="Self.ExceptionHistory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExceptionHistory].[ID] AS [ID], 
+    [ExceptionHistory].[Source] AS [Source], 
+    [ExceptionHistory].[Message] AS [Message], 
+    [ExceptionHistory].[StackTrace] AS [StackTrace], 
+    [ExceptionHistory].[ExceptionDate] AS [ExceptionDate]
+    FROM [dbo].[ExceptionHistory] AS [ExceptionHistory]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Invoice_Invoice" Association="Self.FK_Invoice_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="Invoice1" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Invoice_Customer" Association="Self.FK_Invoice_Invoice_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Invoice_Service" Association="Self.FK_Invoice_Invoice_Service">
+            <End Role="InvoiceService" EntitySet="InvoiceService" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceItems_InvoiceItems_Invoice" Association="Self.FK_InvoiceItems_InvoiceItems_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceItems" EntitySet="InvoiceItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLabor_InvoiceLabor_Invoice" Association="Self.FK_InvoiceLabor_InvoiceLabor_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceLabor" EntitySet="InvoiceLabor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parts_Company1" Association="Self.FK_Parts_Company1">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Parts" EntitySet="Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Repair_Customer" Association="Self.FK_Repair_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BrownsAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BrownsAppDBEntities1" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="AddException">
+            <Parameter Name="Source" Mode="In" Type="String" />
+            <Parameter Name="Message" Mode="In" Type="String" />
+            <Parameter Name="StackTrace" Mode="In" Type="String" />
+            <Parameter Name="ExceptionDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPartReportData">
+            <Parameter Name="Make" Mode="In" Type="String" />
+            <Parameter Name="Model" Mode="In" Type="String" />
+            <Parameter Name="SerialNumberRange" Mode="In" Type="String" />
+            <Parameter Name="PartNumber" Mode="In" Type="String" />
+            <Parameter Name="PartManual" Mode="In" Type="String" />
+            <Parameter Name="PartDescription" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePartsPrice" ReturnType="Collection(Int32)">
+            <Parameter Name="PartNumber" Mode="In" Type="String" />
+            <Parameter Name="ListPrice" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteInvoice" ReturnType="Collection(Int32)">
+          <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCustomerReportData" ReturnType="Collection(BrownsAppDBModel.GetCustomerReportData_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetSalesReportData" ReturnType="Collection(BrownsAppDBModel.GetSalesReportData_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="Invoices" EntityType="BrownsAppDBModel.Invoice" />
+          <EntitySet Name="InvoiceLabors" EntityType="BrownsAppDBModel.InvoiceLabor" />
+          <EntitySet Name="InvoiceServices" EntityType="BrownsAppDBModel.InvoiceService" />
+          <EntitySet Name="Companies" EntityType="BrownsAppDBModel.Company" />
+          <EntitySet Name="Parts" EntityType="BrownsAppDBModel.Part" />
+          <EntitySet Name="ExceptionHistories" EntityType="BrownsAppDBModel.ExceptionHistory" />
+          <AssociationSet Name="FK_Invoice_Invoice" Association="BrownsAppDBModel.FK_Invoice_Invoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="Invoice1" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Invoice_Service" Association="BrownsAppDBModel.FK_Invoice_Invoice_Service">
+            <End Role="InvoiceService" EntitySet="InvoiceServices" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLabor_InvoiceLabor_Invoice" Association="BrownsAppDBModel.FK_InvoiceLabor_InvoiceLabor_Invoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceLabor" EntitySet="InvoiceLabors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parts_Company1" Association="BrownsAppDBModel.FK_Parts_Company1">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Part" EntitySet="Parts" />
+          </AssociationSet>
+          <EntitySet Name="Customer_TaxClassification" EntityType="BrownsAppDBModel.Customer_TaxClassification" />
+          <EntitySet Name="Customers" EntityType="BrownsAppDBModel.Customer" />
+          <AssociationSet Name="FK_Invoice_Invoice_Customer" Association="BrownsAppDBModel.FK_Invoice_Invoice_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <EntitySet Name="Repairs" EntityType="BrownsAppDBModel.Repair" />
+          <AssociationSet Name="FK_Repair_Customer" Association="BrownsAppDBModel.FK_Repair_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Repair" EntitySet="Repairs" />
+          </AssociationSet>
+          <EntitySet Name="InvoiceItems" EntityType="BrownsAppDBModel.InvoiceItem" />
+          <AssociationSet Name="FK_InvoiceItems_InvoiceItems_Invoice" Association="BrownsAppDBModel.FK_InvoiceItems_InvoiceItems_Invoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceItem" EntitySet="InvoiceItems" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="GetCustomerReportData_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="CustomerPO" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="InvoiceAmount" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="OutstandingBalance" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="GetSalesReportData_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="InvoiceAmount" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="OutstandingBalance" Nullable="true" Precision="19" />
+        </ComplexType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerPO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubTotal" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Tax" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Freight" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="BalanceDue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TravelCharge" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TravelExpense" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SaleRep" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PartsSubTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="LaborSubTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InvoiceStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceStatusID" Type="Int32" />
+          <Property Name="ShippingMethodID" Type="Int32" />
+          <Property Name="PaymentStatusID" Type="Int32" />
+          <Property Name="InvoiceServiceID" Type="Int32" />
+          <NavigationProperty Name="Invoice1" Relationship="BrownsAppDBModel.FK_Invoice_Invoice" FromRole="Invoice" ToRole="Invoice1" />
+          <NavigationProperty Name="Invoice2" Relationship="BrownsAppDBModel.FK_Invoice_Invoice" FromRole="Invoice1" ToRole="Invoice" />
+          <NavigationProperty Name="InvoiceService" Relationship="BrownsAppDBModel.FK_Invoice_Invoice_Service" FromRole="Invoice" ToRole="InvoiceService" />
+          <NavigationProperty Name="InvoiceLabors" Relationship="BrownsAppDBModel.FK_InvoiceLabor_InvoiceLabor_Invoice" FromRole="Invoice" ToRole="InvoiceLabor" />
+          <Property Name="County" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsStorePickUp" Type="Boolean" />
+          <NavigationProperty Name="Customer" Relationship="BrownsAppDBModel.FK_Invoice_Invoice_Customer" FromRole="Invoice" ToRole="Customer" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="CountyId" Type="Int32" />
+          <NavigationProperty Name="InvoiceItems" Relationship="BrownsAppDBModel.FK_InvoiceItems_InvoiceItems_Invoice" FromRole="Invoice" ToRole="InvoiceItem" />
+        </EntityType>
+        <EntityType Name="InvoiceLabor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="LaborType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hours" Type="Double" Nullable="false" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LaborTypeID" Type="Int32" />
+          <NavigationProperty Name="Invoice" Relationship="BrownsAppDBModel.FK_InvoiceLabor_InvoiceLabor_Invoice" FromRole="InvoiceLabor" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="InvoiceService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ServicedAt" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ServiceEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnitNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="BrownsAppDBModel.FK_Invoice_Invoice_Service" FromRole="InvoiceService" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Parts" Relationship="BrownsAppDBModel.FK_Parts_Company1" FromRole="Company" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumberRange" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PartNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PartManual" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PartDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ListPrice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Company" Relationship="BrownsAppDBModel.FK_Parts_Company1" FromRole="Part" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="ExceptionHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Source" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StackTrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExceptionDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Invoice_Invoice">
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Invoice_Service">
+          <End Type="BrownsAppDBModel.InvoiceService" Role="InvoiceService" Multiplicity="0..1" />
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="InvoiceServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLabor_InvoiceLabor_Invoice">
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.InvoiceLabor" Role="InvoiceLabor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceLabor">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parts_Company1">
+          <End Type="BrownsAppDBModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.Part" Role="Part" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Part">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer_TaxClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Regular" Type="Boolean" />
+          <Property Name="Manufacturing" Type="Boolean" />
+          <Property Name="Government" Type="Boolean" />
+          <Property Name="Resale" Type="Boolean" />
+          <Property Name="Farming" Type="Boolean" />
+          <Property Name="OutofState" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingContact" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BillingEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BillingPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="TaxExcemptNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int32" />
+          <Property Name="IsShippingSameAsAddress" Type="Boolean" />
+          <Property Name="ShippingAddress1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingAddress2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingStateID" Type="Int32" />
+          <Property Name="ShippingZip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TaxJurisdiction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TaxClassification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Invoices" Relationship="BrownsAppDBModel.FK_Invoice_Invoice_Customer" FromRole="Customer" ToRole="Invoice" />
+          <NavigationProperty Name="Repairs" Relationship="BrownsAppDBModel.FK_Repair_Customer" FromRole="Customer" ToRole="Repair" />
+        </EntityType>
+        <Association Name="FK_Invoice_Invoice_Customer">
+          <End Type="BrownsAppDBModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RepairNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RepairType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Date_Time" Type="DateTime" Precision="3" />
+          <Property Name="Make" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="MachineHours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="MachineMiles" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TotalBill" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Labor" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Parts" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PartsCost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="LaborHours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="VendorInvoicesFile" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceReportBillFile" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="BrownsAppDBModel.FK_Repair_Customer" FromRole="Repair" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Repair_Customer">
+          <End Type="BrownsAppDBModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.Repair" Role="Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvoiceItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Invoice" Relationship="BrownsAppDBModel.FK_InvoiceItems_InvoiceItems_Invoice" FromRole="InvoiceItem" ToRole="Invoice" />
+        </EntityType>
+        <Association Name="FK_InvoiceItems_InvoiceItems_Invoice">
+          <End Type="BrownsAppDBModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="BrownsAppDBModel.InvoiceItem" Role="InvoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceItem">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BrownsAppDBModelStoreContainer" CdmEntityContainer="BrownsAppDBEntities1">
+          <FunctionImportMapping FunctionImportName="AddException" FunctionName="BrownsAppDBModel.Store.AddException" />
+          <FunctionImportMapping FunctionImportName="GetPartReportData" FunctionName="BrownsAppDBModel.Store.GetPartReportData" />
+          <FunctionImportMapping FunctionImportName="UpdatePartsPrice" FunctionName="BrownsAppDBModel.Store.UpdatePartsPrice" />
+          <FunctionImportMapping FunctionImportName="DeleteInvoice" FunctionName="BrownsAppDBModel.Store.DeleteInvoice" />
+          <FunctionImportMapping FunctionImportName="GetCustomerReportData" FunctionName="BrownsAppDBModel.Store.GetCustomerReportData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BrownsAppDBModel.GetCustomerReportData_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
+                <ScalarProperty Name="OutstandingBalance" ColumnName="OutstandingBalance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSalesReportData" FunctionName="BrownsAppDBModel.Store.GetSalesReportData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BrownsAppDBModel.GetSalesReportData_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
+                <ScalarProperty Name="OutstandingBalance" ColumnName="OutstandingBalance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="IsStorePickUp" ColumnName="IsStorePickUp" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="InvoiceServiceID" ColumnName="InvoiceServiceID" />
+                <ScalarProperty Name="PaymentStatusID" ColumnName="PaymentStatusID" />
+                <ScalarProperty Name="ShippingMethodID" ColumnName="ShippingMethodID" />
+                <ScalarProperty Name="InvoiceStatusID" ColumnName="InvoiceStatusID" />
+                <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
+                <ScalarProperty Name="LaborSubTotal" ColumnName="LaborSubTotal" />
+                <ScalarProperty Name="PartsSubTotal" ColumnName="PartsSubTotal" />
+                <ScalarProperty Name="SaleRep" ColumnName="SaleRep" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="TravelExpense" ColumnName="TravelExpense" />
+                <ScalarProperty Name="TravelCharge" ColumnName="TravelCharge" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Freight" ColumnName="Freight" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceLabors">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.InvoiceLabor">
+              <MappingFragment StoreEntitySet="InvoiceLabor">
+                <ScalarProperty Name="LaborTypeID" ColumnName="LaborTypeID" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="LaborType" ColumnName="LaborType" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceServices">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.InvoiceService">
+              <MappingFragment StoreEntitySet="InvoiceService">
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="ServiceEndDate" ColumnName="ServiceEndDate" />
+                <ScalarProperty Name="ServiceStartDate" ColumnName="ServiceStartDate" />
+                <ScalarProperty Name="ServicedAt" ColumnName="ServicedAt" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parts">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Part">
+              <MappingFragment StoreEntitySet="Parts">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
+                <ScalarProperty Name="PartDescription" ColumnName="PartDescription" />
+                <ScalarProperty Name="PartManual" ColumnName="PartManual" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="SerialNumberRange" ColumnName="SerialNumberRange" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExceptionHistories">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.ExceptionHistory">
+              <MappingFragment StoreEntitySet="ExceptionHistory">
+                <ScalarProperty Name="ExceptionDate" ColumnName="ExceptionDate" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer_TaxClassification">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Customer_TaxClassification">
+              <MappingFragment StoreEntitySet="Customer_TaxClassification">
+                <ScalarProperty Name="OutofState" ColumnName="OutofState" />
+                <ScalarProperty Name="Farming" ColumnName="Farming" />
+                <ScalarProperty Name="Resale" ColumnName="Resale" />
+                <ScalarProperty Name="Government" ColumnName="Government" />
+                <ScalarProperty Name="Manufacturing" ColumnName="Manufacturing" />
+                <ScalarProperty Name="Regular" ColumnName="Regular" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="TaxClassification" ColumnName="TaxClassification" />
+                <ScalarProperty Name="TaxJurisdiction" ColumnName="TaxJurisdiction" />
+                <ScalarProperty Name="ShippingZip" ColumnName="ShippingZip" />
+                <ScalarProperty Name="ShippingStateID" ColumnName="ShippingStateID" />
+                <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+                <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+                <ScalarProperty Name="ShippingAddress2" ColumnName="ShippingAddress2" />
+                <ScalarProperty Name="ShippingAddress1" ColumnName="ShippingAddress1" />
+                <ScalarProperty Name="IsShippingSameAsAddress" ColumnName="IsShippingSameAsAddress" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="TaxExcemptNumber" ColumnName="TaxExcemptNumber" />
+                <ScalarProperty Name="BillingPhone" ColumnName="BillingPhone" />
+                <ScalarProperty Name="BillingEmail" ColumnName="BillingEmail" />
+                <ScalarProperty Name="BillingContact" ColumnName="BillingContact" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Repairs">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.Repair">
+              <MappingFragment StoreEntitySet="Repair">
+                <ScalarProperty Name="ServiceReportBillFile" ColumnName="ServiceReportBillFile" />
+                <ScalarProperty Name="VendorInvoicesFile" ColumnName="VendorInvoicesFile" />
+                <ScalarProperty Name="LaborHours" ColumnName="LaborHours" />
+                <ScalarProperty Name="PartsCost" ColumnName="PartsCost" />
+                <ScalarProperty Name="Parts" ColumnName="Parts" />
+                <ScalarProperty Name="Labor" ColumnName="Labor" />
+                <ScalarProperty Name="TotalBill" ColumnName="TotalBill" />
+                <ScalarProperty Name="MachineMiles" ColumnName="MachineMiles" />
+                <ScalarProperty Name="MachineHours" ColumnName="MachineHours" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Date_Time" ColumnName="Date-Time" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="RepairType" ColumnName="RepairType" />
+                <ScalarProperty Name="RepairNumber" ColumnName="RepairNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceItems">
+            <EntityTypeMapping TypeName="BrownsAppDBModel.InvoiceItem">
+              <MappingFragment StoreEntitySet="InvoiceItems">
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

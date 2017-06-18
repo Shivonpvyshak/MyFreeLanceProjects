@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="brownsdbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bhe_users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="EmpCode" Type="varchar" MaxLength="45" />
+          <Property Name="Role" Type="varchar" MaxLength="45" />
+          <Property Name="IsActive" Type="int" />
+        </EntityType>
+        <EntityType Name="company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="45" />
+          <Property Name="Address" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="parts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="bigint" />
+          <Property Name="Make" Type="varchar" MaxLength="75" />
+          <Property Name="Model" Type="varchar" MaxLength="45" />
+          <Property Name="SerialNumberRange" Type="varchar" MaxLength="45" />
+          <Property Name="PartNumber" Type="varchar" MaxLength="45" />
+          <Property Name="PartDescription" Type="varchar" MaxLength="75" />
+          <Property Name="PartManual" Type="varchar" MaxLength="45" />
+          <Property Name="ListPrice" Type="varchar" MaxLength="45" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="45" />
+          <Property Name="AddedDate" Type="datetime" Precision="0" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="45" />
+          <Property Name="LastUpdatedDate" Type="datetime" Precision="0" />
+          <Property Name="IsDeleted" Type="int" />
+        </EntityType>
+        <Association Name="Parts_Company">
+          <End Role="company" Type="Self.company" Multiplicity="0..1" />
+          <End Role="parts" Type="Self.parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="parts">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="brownsdbModelStoreContainer">
+          <EntitySet Name="bhe_users" EntityType="Self.bhe_users" Schema="brownsdb" store:Type="Tables" />
+          <EntitySet Name="company" EntityType="Self.company" Schema="brownsdb" store:Type="Tables" />
+          <EntitySet Name="parts" EntityType="Self.parts" Schema="brownsdb" store:Type="Tables" />
+          <AssociationSet Name="Parts_Company" Association="Self.Parts_Company">
+            <End Role="company" EntitySet="company" />
+            <End Role="parts" EntitySet="parts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="brownsdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bhe_users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="EmpCode" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="parts" Relationship="brownsdbModel.Parts_Company" FromRole="company" ToRole="part" />
+        </EntityType>
+        <EntityType Name="part">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int64" />
+          <Property Name="Make" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumberRange" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="PartNumber" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="PartDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="PartManual" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="ListPrice" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="AddedBy" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="AddedDate" Type="DateTime" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" />
+          <Property Name="IsDeleted" Type="Int32" />
+          <NavigationProperty Name="company" Relationship="brownsdbModel.Parts_Company" FromRole="part" ToRole="company" />
+        </EntityType>
+        <EntityContainer Name="brownsdbEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bhe_users" EntityType="Self.bhe_users" />
+          <EntitySet Name="companies" EntityType="Self.company" />
+          <EntitySet Name="parts" EntityType="Self.part" />
+          <AssociationSet Name="Parts_Company" Association="brownsdbModel.Parts_Company">
+            <End Role="company" EntitySet="companies" />
+            <End Role="part" EntitySet="parts" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="Parts_Company">
+          <End Type="brownsdbModel.company" Role="company" Multiplicity="0..1" />
+          <End Type="brownsdbModel.part" Role="part" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="part">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="brownsdbModelStoreContainer" CdmEntityContainer="brownsdbEntities1">
+          <EntitySetMapping Name="bhe_users">
+            <EntityTypeMapping TypeName="brownsdbModel.bhe_users">
+              <MappingFragment StoreEntitySet="bhe_users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="companies">
+            <EntityTypeMapping TypeName="brownsdbModel.company">
+              <MappingFragment StoreEntitySet="company">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="parts">
+            <EntityTypeMapping TypeName="brownsdbModel.part">
+              <MappingFragment StoreEntitySet="parts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="SerialNumberRange" ColumnName="SerialNumberRange" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="PartDescription" ColumnName="PartDescription" />
+                <ScalarProperty Name="PartManual" ColumnName="PartManual" />
+                <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

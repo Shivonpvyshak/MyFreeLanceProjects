@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "SearchCustomer";
+    Layout = "~/Views/Shared/_LayoutCustomerHome.cshtml";
+}
+
+@*<h2> Customer Details</h2>*@
+
+<div class="container ng-cloak" ng-app="theApp" ng-cloak ng-controller="customerController">
+
+    <div class="col-xs-12">
+        <div class="col-xs-4">
+           <h3>Customer Details</h3>
+        </div>
+        <div class="col-xs-8">
+            <br />
+            <button class="btn btn-success" ng-click="navigateToAddCustomer()">
+                <span class="glyphicon glyphicon-plus"></span> Add New Customer
+            </button>
+            @*<button type="reset" class="btn btn-primary" ng-click="navigateToCustomerDashboard()">
+                <span class="glyphicon glyphicon-search"></span>
+                Back to List
+            </button>*@
+            <button type="button" class="btn btn-link" ng-click="navigateToCustomerDashboard()">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Back to Dashboard
+            </button>
+        </div>
+        <br /><br />
+    </div>
+
+    <form class="form-horizontal" name="customerForm" ng-submit="Submit()">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-5" style="border-right:dotted">
+                    @*<input type="text" ng-show="false" name="Id" value="100" ng-model="CustomerDTO.Id" />*@
+                   <div class="col-xs-12">
+                       <div class="col-xs-4 divPadding"><b>Customer</b></div>
+                       <div class="col-xs-8 divPadding">
+                           <b>{{CustomerDTO.Name}}</b>
+                       </div>
+                   </div>
+                    <input type="text" ng-show="false" name="Id" ng-model="CustomerDTO.ID" />
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Contact</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.Contact}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Position</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.Position}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Phone#</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.PhoneNumber}}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Fax</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.Fax}}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Email</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.Email}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Billing Contact</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.BillingContact}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Billing Email</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.BillingEmail}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Billing Phone</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.BillingPhone}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4 divPadding"><b>Tax Exempt #</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.TaxExcemptNumber}}
+                        </div>
+                    </div>
+                    </div>
+
+                @*===================================================Right===================================================================*@
+                <div class="col-xs-6">
+
+                    @*Address*@
+                    <div class="col-xs-12">
+                        <span class="glyphicon glyphicon-envelope"></span>    <b>Address</b>
+                        <div class="col-xs-12">
+                            <br />
+
+                            <div style="margin-bottom: 3px;" class="form-group">
+
+                               {{CustomerDTO.Address1}}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div style="margin-bottom: 3px;" class="form-group">
+
+                               {{CustomerDTO.Address2}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div style="margin-bottom: 3px;" class="form-group">
+
+                                {{CustomerDTO.City}}
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                               {{CustomerDTO.State.TypeCode}}
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+
+                                {{CustomerDTO.Zip}}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    @*Shipping Address*@
+
+                    <div class="col-xs-12">
+                       <div class="col-xs-6"><span class="glyphicon glyphicon-envelope"></span>  <b>Shipping Address       </b></div>
+                        <div class="col-xs-6">
+                            <div class="checkbox checkbox-primary">
+
+                                <input id="shipping" type="checkbox" class="styled" ng-model="CustomerDTO.IsShippingSameAsAddress" disabled>
+                                <label for="shipping">
+                                    Same as Address
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+                            <br />
+                            <div style="margin-bottom: 3px;" class="form-group"">
+
+                               {{CustomerDTO.ShippingAddress1}}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                            <div style="margin-bottom: 3px;" class="form-group">
+
+                               {{CustomerDTO.ShippingAddress2}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom: 1px;">
+
+                            <div style="margin-bottom: 3px;" class="form-group">
+
+                                {{CustomerDTO.ShippingCity}}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                               {{CustomerDTO.ShippingState.TypeCode}}
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                {{CustomerDTO.ShippingZip}}
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Tax Jurisdiction*@
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Tax Jurisdiction</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.TaxJurisdiction}}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-4 divPadding"><b>Tax Classification</b></div>
+                        <div class="col-xs-8 divPadding">
+                            {{CustomerDTO.TaxClassification}}
+                        </div>
+                    </div>
+
+                    @*------------------------------------------------------------------------*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 divPadding">
+            <br />
+            <b> Notes</b>
+            <br />
+            <div class="col-xs-12">
+                <br />
+                {{CustomerDTO.Notes}}
+            </div>
+        </div>
+
+        <div class="col-xs-12 divPadding">
+            <br />
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-success" data-dismiss="modal" ng-click="editCustomer($event)()"><span class="glyphicon glyphicon-print"></span> Edit Invoice</button>
+
+                @*ng-disabled="!customerForm.$valid"*@
+            </div>
+            <div class="col-xs-6" style="text-align:right">
+                <button type="button" ng-disabled="CustomerDTO.IsCustomerTaggedInInvoice"  class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteCustomerModal"><span class="glyphicon glyphicon-trash"></span> Delete </button>
+            </div>
+        </div>
+        <div class="col-xs-12 divPadding" ng-show="CustomerDTO.IsCustomerTaggedInInvoice">
+            <center> <span style="color:indianred">This Customer is already tagged in one of the Invoice, not able to delete</span></center>
+        </div>
+</form>
+
+    <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-title">
+                        <strong>
+                            Delete Customer
+                        </strong>
+                    </div>
+                </div>
+
+                <form class="form-horizontal" name="deletePartForm">
+
+                    <div class="modal-body clearfix">
+
+                        <div class="col-xs-12">
+                            Are you sure to delete the Customer :- {{CustomerDTO.Name}} ?
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+
+                    <div class="pull-left">
+                        <button type="submit" ng-click="deleteCustomer(CustomerDTO.ID)" class="btn btn-success"><span class="glyphicon glyphicon-trash"></span>Ok</button>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

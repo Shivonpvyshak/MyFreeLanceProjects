@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Exception Log</h2>
+
+<div class="container ng-cloak" ng-app="theApp" ng-cloak>
+    <div ng-controller="logsController">
+
+        <form id="frmSearch" name="frmSearch" class="form-inline" ng-submit="executeLogsSearch($event, searchText)">
+            Logs from Date :-
+            <input ng-model="searchText" type="text" class="form-control" placeholder="DD/MM/YYYY" required autofocus />
+
+            @*<div class="dropdown">
+                    <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+                        <div class="input-group">
+                            <input type="text" class="form-control" data-ng-model="data.dateDropDownInput"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker data-ng-model="data.dateDropDownInput" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+                    </ul>
+                </div>*@
+
+            <div class="btn-group" dropdown>
+                <button type="submit" class="btn btn-primary" ng-disabled="!(searchText)" disabled>
+                    <span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>
+                    <span ng-show="!isSearchExecuting" class="glyphicon glyphicon-search"></span>
+                    Get Logs
+                </button>
+            </div>
+        </form>
+        <br />
+
+        <div ng-show="searchResultNodes">
+            <div class="container">
+                <div ng-repeat="searchResultNode in visibleSearchResultNodes">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <p>
+                                    <strong>Date/Time:</strong> {{searchResultNode.ExceptionDate | date:'medium'}}
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <strong>  Exception Message: </strong> <span style="color:red"> {{searchResultNode.Message}}</span>
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Source:</strong> {{searchResultNode.Source}}
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Exception Stack Trace:</strong> <br />{{searchResultNode.StackTrace}}
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    ------------------------------------------------------------------------------------------------------------------------------
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <form name="paginationForm">
+
+                        <div class="col-xs-12">
+                            <div class="form-inline">
+                                <label style="vertical-align: top" class="form-control-static">Page size:</label>
+                                <input name="pageSize" style="vertical-align: top" class="form-control" type="number" max="100" min="1" ng-model="pageSize" ng-change="pageChanged()">
+                                <label class="text-danger" ng-show="paginationForm.pageSize.$error.max">
+                                    Maximum Page Size of 100 exceeded
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-xs-12">
+                        <pagination boundary-links="true" items-per-page="pageSize" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+                                    max-size="10">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

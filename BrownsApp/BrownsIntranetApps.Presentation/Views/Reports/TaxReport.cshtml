@@ -1,0 +1,124 @@
+﻿@using ReportViewerForMvc;
+@{
+    ViewBag.Title = "TaxReport";
+    Layout = "~/Views/Shared/_LayoutBillingHome.cshtml";
+}
+
+<h2>Tax Report</h2>
+
+<h4> Search Terms</h4>
+<div style="padding:10px; border:1px solid  thin; width:100%;height:130px" >
+
+    <div class="col-xs-12">
+
+        <div class="col-xs-2">
+            <label class="control-label">Tax Jurisdiction</label>
+        </div>
+        <div class="col-xs-3">
+            <div class="form-group" ng-class="">
+
+                <div class="dropdown">
+                          <select style="width:220px;text-align:center"
+                            class="form-control"
+                            id="taxJurisdiction"
+                            required>
+                              <option value="All">All</option>
+                        <option value="IOWA-Tax">IOWA-Tax</option>
+                        <option value="Nebraska-Tax">Nebraska-Tax</option>
+                        <option value="Out-of-state">Out of State</option>
+                        
+                    </select>
+
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-2">
+            <label class="control-label">From Date</label>
+        </div>
+        <div class="col-xs-2">
+            <div class="form-group">
+                <div class='input-group date' id='fromDate'>
+                    <input type='text' id="txtFromDate" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-1">
+            <label class="control-label">To Date</label>
+        </div>
+        <div class="col-xs-2">
+            <div class="form-group">
+                <div class='input-group date' id='toDate'>
+                    <input type='text' id="txtToDate" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+
+        <button type="submit" class="btn btn-success"
+                onclick="location.href='@Url.Action("GetTaxReport")?&fromDate=' + $('#txtFromDate').val()
+                                                                      + '&toDate=' + $('#txtToDate').val()
+                                                                      + '&taxJurisdiction=' + $('#taxJurisdiction').val()">
+            @*<span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>
+            <span ng-show="!isSearchExecuting" class="glyphicon glyphicon-duplicate"></span>*@
+            Generate Report
+        </button>
+    </div>
+</div>
+
+<div style="width: 70%">
+    @if (ViewBag.ReportViewer != null)
+    {
+        @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)
+
+    }
+    else if (ViewBag.MaxRecordExceed != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Warning :- </strong>
+            @ViewBag.MaxRecordExceed
+        </div>
+
+    }
+    else
+    {
+        if ((ViewBag.OnLoad != null && ViewBag.OnLoad != "OnLoad"))
+        {
+            <div>
+                <img src="~/Content/Images/no-record-found.jpg" />
+            </div>
+        }
+
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#fromDate').datetimepicker(
+            {
+                format: 'MM/DD/YYYY'
+            });
+        $('#toDate').datetimepicker({
+
+            format: 'MM/DD/YYYY'
+        });
+
+        $("#fromDate").on("dp.change", function (e) {
+            $('#toDate').data("DateTimePicker").minDate(e.date);
+        });
+        $("#toDate").on("dp.change", function (e) {
+            $('#fromDate').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
+

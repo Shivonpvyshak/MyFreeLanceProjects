@@ -1,0 +1,37 @@
+﻿CREATE TABLE [Billing].[Invoice] (
+    [ID]              INT           IDENTITY (1, 1) NOT NULL,
+    [InvoiceType]     VARCHAR (50)  NOT NULL,
+    [CustomerID]      INT           NOT NULL,
+    [InvoiceNumber]   VARCHAR (50)  NOT NULL,
+    [InvoiceDate]     DATETIME      NOT NULL,
+    [OrderNumber]     VARCHAR (50)  NULL,
+    [ShippingMethod]  VARCHAR (50)  NOT NULL,
+    [PaymentStatus]   VARCHAR (50)  NOT NULL,
+    [CustomerPO]      VARCHAR (50)  NULL,
+    [SubTotal]        MONEY         NOT NULL,
+    [Tax]             MONEY         NOT NULL,
+    [Freight]         MONEY         NULL,
+    [Total]           MONEY         NOT NULL,
+    [BalanceDue]      MONEY         NULL,
+    [Comments]        VARCHAR (MAX) NULL,
+    [Make]            VARCHAR (100) NULL,
+    [Model]           VARCHAR (MAX) NULL,
+    [SerialNumber]    VARCHAR (MAX) NULL,
+    [UnitNumber]      VARCHAR (100) NULL,
+    [TravelCharge]    MONEY         NULL,
+    [TravelExpense]   MONEY         NULL,
+    [AddedDate]       DATETIME      NULL,
+    [AddedBy]         VARCHAR (50)  NULL,
+    [LastUpdatedDate] DATETIME      NULL,
+    [LastUpdatedBy]   VARCHAR (50)  NULL,
+    [SaleRep]         VARCHAR (50)  NULL,
+    [PartsSubTotal]   MONEY         NULL,
+    [LaborSubTotal]   MONEY         NULL,
+    [InvoiceStatus]   VARCHAR (50)  NULL,
+    [InvoiceStatusID] INT           NULL,
+    CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_Invoice_Invoice_Customer] FOREIGN KEY ([CustomerID]) REFERENCES [Billing].[Customer] ([ID])
+);
+
+
+

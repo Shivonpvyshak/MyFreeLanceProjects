@@ -1,0 +1,595 @@
+﻿@{
+    ViewBag.Title = "Billing Home";
+    Layout = "~/Views/Shared/_LayoutBillingHome.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+                  <img src="~/Content/Images/InvDashboard.PNG" style="width:400px; height:100px" />
+        </div>
+        <div class="col-xs-6"><h1><b>Invoice Dashboard</b></h1></div>
+        </div>
+</div>
+
+@*<div class="alert alert-success" style="height:50px">
+        <b>Invoice Dashboard</b>
+</div>*@
+
+<br /><br />
+<div class="container" ng-app="theApp" ng-controller="billingHomeController" data-ng-init="initialize()">
+
+    @*<div id="accrdInProgress" class="panel-group">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#InProgressBody" data-toggle="collapse" data-parent="#accrdInProgress" class="accordion-toggle">In Progress</a>      - <span class="badge badge-danger"><b>{{InProgressInvoices.length==undefined?0:InProgressInvoices.length}}</b></span>
+                </h4>
+               <br />
+            </div>
+        </div>
+        <div id="InProgressBody" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div style="box-shadow: 8px 8px 5px #888888;">
+                    <table class="dashboardtable" id="inprogress">
+
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Invoice#
+                                </th>
+                                <th>
+                                    Invoice Type
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Sales Rep
+                                </th>
+                                <th>
+                                    Parts Subtotal
+                                </th>
+                                <th>
+                                    Labor Subtotal
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr ng-repeat="invoice in inprogressInvoices = (InProgressInvoices )" ng-show="InProgressInvoices.length!=0">
+
+                                <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                <td>{{invoice.InvoiceType}}</td>
+                                <td>{{invoice.Customer.Name}}</td>
+                                <td>{{invoice.SalesRep}}</td>
+                                <td>{{invoice.PartsSubTotal|currency}}</td>
+                                <td>{{invoice.LaborSubTotal|currency}}</td>
+                                <td>{{invoice.Total|currency}}</td>
+                                <td>{{invoice.InvoiceDate|date}}</td>
+                            </tr>
+                            <tr ng-show="InProgressInvoices.length==0">
+                                <td colspan="8"><h4>No Records Found</h4></td>
+                            </tr>
+                            <tr ng-show="isLoading">
+                                <td colspan="8">
+                                    <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @*<div id="accrdPendingvalidation" class="panel-group">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#PendingvalidationBody" data-toggle="collapse" data-parent="#accrdPendingvalidation">Pending Validation</a>    - <span class="badge badge-warning"><b>{{PendingValidationInvoices.length==undefined?0:PendingValidationInvoices.length}} </b></span>
+                </h4><br />
+            </div>
+        </div>
+        <div id="PendingvalidationBody" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div style="box-shadow: 8px 8px 5px #888888;">
+                    <table class="dashboardtable" id="pendingvalidation">
+
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Invoice#
+                                </th>
+                                <th>
+                                    Invoice Type
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Sales Rep
+                                </th>
+                                <th>
+                                    Parts Subtotal
+                                </th>
+                                <th>
+                                    Labor Subtotal
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr ng-repeat="invoice in pvalidationInvoices = (PendingValidationInvoices )" ng-show="PendingValidationInvoices.length!=0">
+
+                                <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                <td>{{invoice.InvoiceType}}</td>
+                                <td>{{invoice.Customer.Name}}</td>
+                                <td>{{invoice.SalesRep}}</td>
+                                <td>{{invoice.PartsSubTotal|currency}}</td>
+                                <td>{{invoice.LaborSubTotal|currency}}</td>
+                                <td>{{invoice.Total|currency}}</td>
+                                <td>{{invoice.InvoiceDate|date}}</td>
+                            </tr>
+                            <tr ng-show="PendingValidationInvoices.length==0">
+                                <td colspan="8"><h4>No Records Found</h4></td>
+                            </tr>
+                            <tr ng-show="isLoading">
+                                <td colspan="8">
+                                    <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @*<div id="accrdApproved" class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#ApprovedBody" data-toggle="collapse" data-parent="#accrdApproved">Approved</a>    - <span class="badge badge-warning"><b>{{PendingValidationInvoices.length==undefined?0:PendingValidationInvoices.length}} </b></span>
+                </h4><br />
+            </div>
+        </div>
+        <div id="ApprovedBody" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div style="box-shadow: 8px 8px 5px #888888;">
+                    <table class="dashboardtable" id="approved">
+
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Invoice#
+                                </th>
+                                <th>
+                                    Invoice Type
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Sales Rep
+                                </th>
+                                <th>
+                                    Parts Subtotal
+                                </th>
+                                <th>
+                                    Labor Subtotal
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr ng-repeat="invoice in aprvdInvoices = (ApprovedInvoices )" ng-show="ApprovedInvoices.length!=0">
+
+                                <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                <td>{{invoice.InvoiceType}}</td>
+                                <td>{{invoice.Customer.Name}}</td>
+                                <td>{{invoice.SalesRep}}</td>
+                                <td>{{invoice.PartsSubTotal|currency}}</td>
+                                <td>{{invoice.LaborSubTotal|currency}}</td>
+                                <td>{{invoice.Total|currency}}</td>
+                                <td>{{invoice.InvoiceDate|date}}</td>
+                            </tr>
+                            <tr ng-show="ApprovedInvoices.length==0">
+                                <td colspan="8"><h4>No Records Found</h4></td>
+                            </tr>
+                            <tr ng-show="isLoading">
+                                <td colspan="8">
+                                    <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @*<div id="accrdPaymentPending" class="panel-group">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#PaymentPendingBody" data-toggle="collapse" data-parent="#accrdPaymentPending">Payment Pending</a>    - <span class="badge badge-warning"><b>{{PendingValidationInvoices.length==undefined?0:PendingValidationInvoices.length}} </b></span>
+                </h4><br />
+            </div>
+        </div>
+        <div id="PaymentPendingBody" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div style="box-shadow: 8px 8px 5px #888888;">
+                    <table class="dashboardtable" id="paymentpending">
+
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Invoice#
+                                </th>
+                                <th>
+                                    Invoice Type
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Sales Rep
+                                </th>
+                                <th>
+                                    Parts Subtotal
+                                </th>
+                                <th>
+                                    Labor Subtotal
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr ng-repeat="invoice in pymnpendingInvoices = (PaymentPendingInvoices )" ng-show="PaymentPendingInvoices.length!=0">
+
+                                <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                <td>{{invoice.InvoiceType}}</td>
+                                <td>{{invoice.Customer.Name}}</td>
+                                <td>{{invoice.SalesRep}}</td>
+                                <td>{{invoice.PartsSubTotal|currency}}</td>
+                                <td>{{invoice.LaborSubTotal|currency}}</td>
+                                <td>{{invoice.Total|currency}}</td>
+                                <td>{{invoice.InvoiceDate|date}}</td>
+                            </tr>
+                            <tr ng-show="PaymentPendingInvoices.length==0">
+                                <td colspan="8"><h4>No Records Found</h4></td>
+                            </tr>
+                            <tr ng-show="isLoading">
+                                <td colspan="8">
+                                    <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @*---------------------------------------------------------------------------------------------------------------------------------------------*@
+
+    <div class="panel-group wrap" id="bs-collapse">
+        <div class="panel">
+            <div class="panel-heading ">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#bs-collapse" href="#one">
+
+                        In Progress
+                    </a>
+                </h4>
+            </div>
+            <div id="one" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div style="box-shadow: 8px 8px 5px #888888;">
+                        <table class="dashboardtable" id="inprogress">
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Invoice#
+                                    </th>
+                                    <th>
+                                        Invoice Type
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Sales Rep
+                                    </th>
+                                    <th>
+                                        Parts Subtotal
+                                    </th>
+                                    <th>
+                                        Labor Subtotal
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="invoice in inprogressInvoices = (InProgressInvoices )" ng-show="InProgressInvoices.length!=0">
+
+                                    <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                    <td>{{invoice.InvoiceType}}</td>
+                                    <td>{{invoice.Customer.Name}}</td>
+                                    <td>{{invoice.SalesRep}}</td>
+                                    <td>{{invoice.PartsSubTotal|currency}}</td>
+                                    <td>{{invoice.LaborSubTotal|currency}}</td>
+                                    <td>{{invoice.Total|currency}}</td>
+                                    <td>{{invoice.InvoiceDate|date}}</td>
+                                </tr>
+                                <tr ng-show="InProgressInvoices.length==0">
+                                    <td colspan="8"><h4>No Records Found</h4></td>
+                                </tr>
+                                <tr ng-show="isLoading">
+                                    <td colspan="8">
+                                        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of panel -->
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#bs-collapse" href="#two">
+                        Pending Validation
+                    </a>
+                </h4>
+            </div>
+            <div id="two" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div style="box-shadow: 8px 8px 5px #888888;">
+                        <table class="dashboardtable" id="pendingvalidation">
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Invoice#
+                                    </th>
+                                    <th>
+                                        Invoice Type
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Sales Rep
+                                    </th>
+                                    <th>
+                                        Parts Subtotal
+                                    </th>
+                                    <th>
+                                        Labor Subtotal
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="invoice in pvalidationInvoices = (PendingValidationInvoices )" ng-show="PendingValidationInvoices.length!=0">
+
+                                    <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                    <td>{{invoice.InvoiceType}}</td>
+                                    <td>{{invoice.Customer.Name}}</td>
+                                    <td>{{invoice.SalesRep}}</td>
+                                    <td>{{invoice.PartsSubTotal|currency}}</td>
+                                    <td>{{invoice.LaborSubTotal|currency}}</td>
+                                    <td>{{invoice.Total|currency}}</td>
+                                    <td>{{invoice.InvoiceDate|date}}</td>
+                                </tr>
+                                <tr ng-show="PendingValidationInvoices.length==0">
+                                    <td colspan="8"><h4>No Records Found</h4></td>
+                                </tr>
+                                <tr ng-show="isLoading">
+                                    <td colspan="8">
+                                        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of panel -->
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#bs-collapse" href="#three">
+                        Approved
+                    </a>
+                </h4>
+            </div>
+            <div id="three" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div style="box-shadow: 8px 8px 5px #888888;">
+                        <table class="dashboardtable" id="approved">
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Invoice#
+                                    </th>
+                                    <th>
+                                        Invoice Type
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Sales Rep
+                                    </th>
+                                    <th>
+                                        Parts Subtotal
+                                    </th>
+                                    <th>
+                                        Labor Subtotal
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="invoice in aprvdInvoices = (ApprovedInvoices )" ng-show="ApprovedInvoices.length!=0">
+
+                                    <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                    <td>{{invoice.InvoiceType}}</td>
+                                    <td>{{invoice.Customer.Name}}</td>
+                                    <td>{{invoice.SalesRep}}</td>
+                                    <td>{{invoice.PartsSubTotal|currency}}</td>
+                                    <td>{{invoice.LaborSubTotal|currency}}</td>
+                                    <td>{{invoice.Total|currency}}</td>
+                                    <td>{{invoice.InvoiceDate|date}}</td>
+                                </tr>
+                                <tr ng-show="ApprovedInvoices.length==0">
+                                    <td colspan="8"><h4>No Records Found</h4></td>
+                                </tr>
+                                <tr ng-show="isLoading">
+                                    <td colspan="8">
+                                        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of panel -->
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#bs-collapse" href="#four">
+                        Payment Pending
+                    </a>
+                </h4>
+            </div>
+            <div id="four" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div style="box-shadow: 8px 8px 5px #888888;">
+                        <table class="dashboardtable" id="paymentpending">
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Invoice#
+                                    </th>
+                                    <th>
+                                        Invoice Type
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Sales Rep
+                                    </th>
+                                    <th>
+                                        Parts Subtotal
+                                    </th>
+                                    <th>
+                                        Labor Subtotal
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="invoice in pymnpendingInvoices = (PaymentPendingInvoices )" ng-show="PaymentPendingInvoices.length!=0">
+
+                                    <td><a href="#" ng-click="executeSearch(invoice.InvoiceType,invoice.InvoiceNumber)"> {{invoice.InvoiceNumber}} </a></td>
+                                    <td>{{invoice.InvoiceType}}</td>
+                                    <td>{{invoice.Customer.Name}}</td>
+                                    <td>{{invoice.SalesRep}}</td>
+                                    <td>{{invoice.PartsSubTotal|currency}}</td>
+                                    <td>{{invoice.LaborSubTotal|currency}}</td>
+                                    <td>{{invoice.Total|currency}}</td>
+                                    <td>{{invoice.InvoiceDate|date}}</td>
+                                </tr>
+                                <tr ng-show="PaymentPendingInvoices.length==0">
+                                    <td colspan="8"><h4>No Records Found</h4></td>
+                                </tr>
+                                <tr ng-show="isLoading">
+                                    <td colspan="8">
+                                        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="isLoading"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of panel -->
+    </div>
+</div>

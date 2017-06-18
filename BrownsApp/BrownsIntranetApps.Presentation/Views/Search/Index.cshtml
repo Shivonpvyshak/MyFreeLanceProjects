@@ -1,0 +1,620 @@
+﻿@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Parts Details</h2>
+
+<div class="container ng-cloak" ng-app="theApp" ng-cloak>
+
+    @*Search*@
+    <div ng-controller="searchController">
+        <form id="frmSearch" name="frmSearch" class="form-inline" ng-submit="executeSearch($event, searchText)">
+
+            <input ng-model="searchText" type="text" class="form-control" placeholder="Enter search term" required autofocus />
+
+            <div class="btn-group" dropdown>
+                <button type="submit" class="btn btn-primary" ng-disabled="!(searchText)" disabled>
+                    <span ng-show="isSearchExecuting" class="fa fa-spinner fa-spin"></span>
+                    <span ng-show="!isSearchExecuting" class="glyphicon glyphicon-search"></span>
+                    Search by Part #
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="!(searchText)" disabled>
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+
+                    <li><a ng-click="executePartbyDescSearch($event, searchText)">By Part Description</a></li>
+                    <li><a ng-click="executeModelBySearch($event, searchText)">By Model</a></li>
+                </ul>
+            </div>
+            <span>
+                <button class="btn btn-success" data-toggle="modal" data-target="#addPartModal">
+                    <span class="glyphicon glyphicon-plus"></span> Add New Part
+                </button>
+            </span>
+            <div ng-show="searchResultNodes">
+                @*<div>{{searchResultNodes.length}} <i>{{lastSearchMode}}</i> search results</div>*@
+                <div>{{searchResultNodes.length}}  Parts found (<i>{{lastSearchMode}}</i>)</div>
+            </div>
+        </form>
+        <br />
+        <div ng-show="searchResultNodes">
+            <div class="container">
+                <div ng-repeat="searchResultNode in visibleSearchResultNodes">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <strong>
+                                    <a href="#" data-toggle="modal" data-target="#viewPartModal" ng-click="viewPart(searchResultNode)">{{searchResultNode.PartNumber}}</a>
+                                </strong>
+
+                                <span class="dropdown top-buffer">
+                                    <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="ddmActions" data-toggle="dropdown" aria-expanded="true">
+                                        <span><i class="fa fa-gear"></i></span>
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddmActions">
+
+                                        <li>
+                                            <a role="menuitem" href="#" data-toggle="modal" data-target="#editPartModal" ng-click="editPart(searchResultNode)"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                        </li>
+
+                                        <li>
+                                            <a role="menuitem" href="#" data-toggle="modal" data-target="#deletePartModal" ng-click="deletePart(searchResultNode)"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                                        </li>
+                                        <li>
+                                            <a role="menuitem" href="#" ng-click="viewHistory(searchResultNode)"><span class=""></span><span><i class="fa fa-history"></i></span> View History</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                                <span>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <strong>  Make: </strong> {{searchResultNode.Make}} | <strong>Model:</strong> {{searchResultNode.Model}} | <strong>List Price:</strong> {{searchResultNode.ListPrice | currency}}
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <strong>Serial Number Range:</strong> {{searchResultNode.SerialNumberRange}}
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Part Manual:</strong> {{searchResultNode.PartManual}}
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <p>
+                                    <strong>Part Description:</strong> {{searchResultNode.PartDescription}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <form name="paginationForm">
+
+                        <div class="col-xs-12">
+                            <div class="form-inline">
+                                <label style="vertical-align: top" class="form-control-static">Page size:</label>
+                                <input name="pageSize" style="vertical-align: top" class="form-control" type="number" max="100" min="1" ng-model="pageSize" ng-change="pageChanged()">
+                                <label class="text-danger" ng-show="paginationForm.pageSize.$error.max">
+                                    Maximum Page Size of 100 exceeded
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-xs-12">
+                        <pagination boundary-links="true" items-per-page="pageSize" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+                                    max-size="10">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deletePartModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Delete Part
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="deletePartForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-12">
+                                Are you sure to delete the Part :- {{deletePartData.PartNumber}} ?
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-click="deletePartDetail($event)" class="btn btn-success"><span class="glyphicon glyphicon-trash"></span> Delete Part</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="addPartController">
+        @*Add Part Dialog*@
+        @*<div ng-controller="addPartController">*@
+
+        @*<form id="frmAddPart" name="frmAddPart" class="form-inline" ng-submit="">*@
+        <div class="modal fade" id="addPartModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Add a new Part
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="addPartForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part #</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="addPartData.newPartNumber"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="addPartForm.newPartNumber.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Make</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <select name="newMake"
+                                            class="form-control"
+                                            data-ng-options="r.companyName for r in allCompanies"
+                                            data-ng-model="addPartData.newMake"
+                                            required
+                                            placeholder="Select a Make"></select>
+
+                                    <p class="text-danger"
+                                       ng-show="addPartForm.newMake.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Model</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newModel"
+                                           ng-model="addPartData.newModel"
+                                           required
+                                           placeholder="Enter Model" />
+
+                                    <p class="text-danger"
+                                       ng-show="addPartForm.newModel.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Sn Number Range</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newScientificName"
+                                           ng-model="addPartData.newSNNumberRange"
+                                           required
+                                           placeholder="Enter Serial Nnmber" />
+
+                                    <p class="text-danger"
+                                       ng-show="addPartForm.newSNNumberRange.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Manual</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartManual"
+                                           ng-model="addPartData.newPartManual"
+                                           required
+                                           placeholder="Enter Part Manual" />
+
+                                    <p class="text-danger"
+                                       ng-show="addPartForm.newPartManual.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Description</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartDescription"
+                                           ng-model="addPartData.newPartDescription"
+                                           required
+                                           placeholder="Enter Part Description" />
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">List Price($)</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newListPrice"
+                                           ng-model="addPartData.newListPrice"
+                                           required
+                                           placeholder="Enter List Price" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-click="addPart($event)" class="btn btn-success" ng-disabled="!addPartForm.$valid"><span class="glyphicon glyphicon-floppy-disk"></span> Save Part</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</form>*@
+        @*</div>*@
+
+        @*View Part Dialog*@
+        @*<div ng-controller="addPartController">*@
+
+        <div class="modal fade" id="viewPartModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Part Detail
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="viewPartForm">
+                        @*<div id="partPrintSection">*@
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part #</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.PartNumber}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Make</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.Make}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Model</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.Model}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Sn Number Range</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.SerialNumberRange}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Manual</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.PartManual}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Description</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.PartDescription}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">List Price($)</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+                                    <div>
+                                        <p class="form-control-static">{{viewPartData.ListPrice| currency}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-click="printToCart($event)" class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Print Part</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</div>*@
+
+        @*Edit Part Dialog*@
+        <div class="modal fade" id="editPartModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title">
+                            <strong>
+                                Modify Part Details
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" name="editPartForm">
+
+                        <div class="modal-body clearfix">
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part #</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-
+                                           ng-model="editPartData.PartNumber"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.PartNumber.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Make</label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <select name="newMake"
+                                            class="form-control"
+                                            data-ng-options="r.companyID as r.companyName for r in allCompanies"
+                                            data-ng-model="editPartData.CompanyID"
+                                            data-ng-change="editPartData.Make=(allCompanies|filter:{companyID:editPartData.CompanyID})[0].companyName">
+                                        required
+                                        placeholder="Select a Make">
+                                    </select>
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.Make.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Model</label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="editPartData.Model"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.Model.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Sn Number Range</label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="editPartData.SerialNumberRange"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.SerialNumberRange.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Manual</label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="editPartData.PartManual"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.PartManual.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">Part Description</label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="editPartData.PartDescription"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.PartDescription.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label class="control-label">List Price($)</label>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="">
+
+                                    <input class="form-control"
+                                           name="newPartNumber"
+                                           ng-model="editPartData.ListPrice"
+                                           required
+                                           placeholder="Enter Part Number" />
+
+                                    <p class="text-danger"
+                                       ng-show="editPartForm.ListPrice.$error.required">
+                                        Required
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+
+                        <div class="pull-left">
+                            <button type="submit" ng-click="editPart($event)" class="btn btn-success" ng-disabled="!editPartForm.$valid"><span class="glyphicon glyphicon-edit"></span> Update Part</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deSelectPart()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+</div> @*End Div*@
